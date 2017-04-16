@@ -511,13 +511,21 @@ function create_listener_drop(drop_element){
 		event.preventDefault();
 	}, false);
 	drop_element.addEventListener('drop', function(event){
+		/*Before dorpping, check the length of the html in the
+		  drop zone to ensure no drops occur into full cells.
+		*/
+		if(drop_element.innerHTML.length > 20){return 0;}
+		//Get the data stored on drag.
+		var source_id = event.dataTransfer.getData('text');
+		//Prevent holding area --> holding area.
+		if(source_id.substring(0,4) == 'temp'
+		   && drop_element.innerHTML == 'Holding Area'){return 0;}
 		/*Check the source to see where the data comes from:
 		  First statement: holding area --> pocket.
 		  Second statement: pocket --> holding area.
 		  Third statement: pocket --> pocket.
 		  Fourth statement: table --> pocket.
 		*/
-		var source_id = event.dataTransfer.getData('text');
 		if(source_id.length > 4 && source_id.substring(0,4) == 'temp'){
 			var data = '<br>'.concat(document.getElementById(source_id).innerHTML);
 			event.target.innerHTML = event.target.innerHTML.concat(data);
