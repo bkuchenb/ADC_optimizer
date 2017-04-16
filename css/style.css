@@ -126,15 +126,42 @@ th{
 	vertical-align: top;/*Keep all elements flush with the top*/
 	width: 23%;
 }
-.bin_6{
+.two_inch_bin{
 	background-color: white;
 	border: 1px solid black;
+	cursor: move;
 	display: inline-block;
-	height: 125px;
+	height: 160px;
 	margin: 5px;
+	overflow-y: scroll;
 	padding: 5px;
 	text-align: left;
-	text-overflow: ellipsis;
 	vertical-align: top;/*Keep all elements flush with the top*/
-	width: 375px;
+	width: 18%;
+}
+.four_inch_bin{
+	background-color: white;
+	border: 1px solid black;
+	cursor: move;
+	display: inline-block;
+	height: 160px;
+	margin: 5px;
+	overflow-y: scroll;
+	padding: 5px;
+	text-align: left;
+	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 21%;
+}
+.six_inch_bin{
+	background-color: white;
+	border: 1px solid black;
+	cursor: move;
+	display: inline-block;
+	height: 160px;
+	margin: 5px;
+	overflow-y: scroll;
+	padding: 5px;
+	text-align: left;
+	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 30%;
 }

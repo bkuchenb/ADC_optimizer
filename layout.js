@@ -263,7 +263,7 @@ function create_drawer_buttons(){
 		btn_temp.innerHTML = 'Main '.concat(drawer[i]);
 		btn_temp.id = 'M'.concat(drawer_id[i]);
 		div_temp.appendChild(btn_temp);
-		create_listener_drawer_button(btn_temp, 23);
+		create_listener_drawer_button(btn_temp);
 	}
 	//Create the buttons for the auxillary drawers.
 	for(var i = 0; i < drawer.length; i++){
@@ -271,7 +271,7 @@ function create_drawer_buttons(){
 		btn_temp.innerHTML = 'Aux '.concat(drawer[i]);
 		btn_temp.id = 'A'.concat(drawer_id[i]);
 		div_temp.appendChild(btn_temp);
-		create_listener_drawer_button(btn_temp, 23);
+		create_listener_drawer_button(btn_temp);
 	}
 	//Create the buttons for the tower drawers.
 	for(var i = 0; i < tower.length; i++){
@@ -279,7 +279,7 @@ function create_drawer_buttons(){
 		btn_temp.innerHTML = 'Tower '.concat(tower[i]);
 		btn_temp.id = 'T'.concat(tower_id[i]);
 		div_temp.appendChild(btn_temp);
-		create_listener_drawer_button(btn_temp, 20);
+		create_listener_drawer_button(btn_temp);
 	}
 	navbar.appendChild(div_temp);
 }
@@ -290,7 +290,7 @@ function create_drawer_buttons(){
   attached to each cell to allow the table rows to be dragged
   and dropped into the pocket.
 */
-function create_listener_drawer_button(btn, num){
+function create_listener_drawer_button(btn){
 	//When clicked, create a grid.
 	btn.addEventListener('click', function(event){
 		event.preventDefault();
@@ -319,14 +319,14 @@ function create_listener_drawer_button(btn, num){
 			if(!drawer_saved){
 				//Add the div to the body.
 				body.appendChild(div_drawer);
-				if(num == 20){
+				if(btn.id == 'T1_1' || btn.id == 'T3_1'){
 					var drawer = document.createElement('div');
 					pocket_array = [5, 10, 15, 20,
 									4, 9, 14, 19,
 									3, 8, 13, 18,
 									2, 7, 12, 17,
 									1, 6, 11, 16];
-					for(var i = 0; i < num; i++){
+					for(var i = 0; i < 20; i++){
 						if(i == 0 || i == 4 || i == 8 || i == 12 || i == 16){
 							var row = document.createElement('div');
 							row.className = 'drawer_row';
@@ -347,20 +347,88 @@ function create_listener_drawer_button(btn, num){
 					}
 					div_drawer.appendChild(drawer);
 				}
-				if(num == 8){
+				else if(btn.id == 'T1_2'){
+						var drawer = document.createElement('div');
+						pocket_array = [25, 30, 35, 40,
+										24, 29, 34, 39,
+										23, 28, 33, 38,
+										22, 27, 32, 37,
+										21, 26, 31, 36];
+						for(var i = 0; i < 20; i++){
+							if(i == 0 || i == 4 || i == 8 || i == 12 || i == 16){
+								var row = document.createElement('div');
+								row.className = 'drawer_row';
+							}
+							var cell = document.createElement('div');
+							cell.innerHTML = pocket_array[i];
+							cell.className = 'drawer_cell';
+							cell.draggable = true;
+							cell.id = 'pocket_'.concat(pocket_array[i]);
+							//Create a listener to allow table rows to be dropped.
+							create_listener_drop(cell);
+							//Create a listener to allow dragging.
+							create_listener_drag(cell);
+							row.appendChild(cell);
+							if(i == 3 || i == 7 || i == 11 || i == 15 || i == 19){
+								drawer.appendChild(row);
+							}
+						}
+						div_drawer.appendChild(drawer);
+					}
+				else if(btn.id == 'T2_1' || btn.id == 'T4_1'){
+						var drawer = document.createElement('div');
+						for(var i = 0; i < 40; i++){
+							if(i == 0 || i == 5 || i == 10 || i == 15 || i == 20
+								|| i == 25 || i == 30 || i == 35){
+								var row = document.createElement('div');
+								row.className = 'drawer_row';
+							}
+							var cell = document.createElement('div');
+							if(btn.id == 'T2_1'){
+								cell.innerHTML = (i + 1).toString().concat(' (POP drawer)');
+							}
+							else{
+								cell.innerHTML = (i + 1).toString();
+							}
+							
+							cell.className = 'two_inch_bin';
+							cell.draggable = true;
+							cell.id = 'pocket_'.concat((i + 1).toString());
+							//Create a listener to allow table rows to be dropped.
+							create_listener_drop(cell);
+							//Create a listener to allow dragging.
+							create_listener_drag(cell);
+							row.appendChild(cell);
+							if(i == 4 || i == 9 || i == 14 || i == 19 || i == 24
+								|| i == 29 || i == 34 || i == 39){
+								drawer.appendChild(row);
+							}
+						}
+						div_drawer.appendChild(drawer);
+				}
+				else if(btn.id == 'T2_2'){
+					var drawer = document.createElement('div');
+					drawer.innerHTML = 'Tower 2.2 is used for Patient Specific Meds.';
+					drawer.style.font = '36px Palatino Linotype';
+					drawer.style.fontWeight = 'bold';
+					drawer.style.textAlign = 'center';
+					drawer.style.paddingTop = '40px';
+					div_drawer.appendChild(drawer);
+				}
+				else if(btn.id == 'T3_2'){
 					var drawer = document.createElement('div');
 					pocket_array = [22, 24, 26, 28,
 									21, 23, 25, 27];
-					for(var i = 0; i < num; i++){
+					for(var i = 0; i < 8; i++){
 						if(i == 0 || i == 4){
 							var row = document.createElement('div');
 							row.className = 'drawer_row';
 						}
 						var cell = document.createElement('div');
 						cell.innerHTML = pocket_array[i];
-						cell.className = 'drawer_cell';
+						cell.className = 'four_inch_bin';
 						if(pocket_array[i] == 27 || pocket_array[i] == 28){
-							cell.className = 'bin_6';					
+							cell.className = 'six_inch_bin';					
 						}
 						//Create a listener to allow table rows to be dropped.
 						create_listener_drop(cell);
@@ -369,9 +437,41 @@ function create_listener_drawer_button(btn, num){
 							drawer.appendChild(row);
 						}
 					}
-					
 					div_drawer.appendChild(drawer);
-				}	
+				}
+				else if(btn.id == 'T4_2'){
+					var drawer = document.createElement('div');
+					pocket_array = [42, 44, 46, 48,
+									41, 43, 45, 47];
+					for(var i = 0; i < 8; i++){
+						if(i == 0 || i == 4){
+							var row = document.createElement('div');
+							row.className = 'drawer_row';
+						}
+						var cell = document.createElement('div');
+						cell.innerHTML = pocket_array[i];
+						cell.className = 'four_inch_bin';
+						if(pocket_array[i] == 47 || pocket_array[i] == 48){
+							cell.className = 'six_inch_bin';					
+						}
+						//Create a listener to allow table rows to be dropped.
+						create_listener_drop(cell);
+						row.appendChild(cell);
+						if(i == 3 || i == 7){
+							drawer.appendChild(row);
+						}
+					}
+					div_drawer.appendChild(drawer);
+				}
+				else{
+					var drawer = document.createElement('div');
+					drawer.innerHTML = 'This drawer is under construction.';
+					drawer.style.font = '36px Palatino Linotype';
+					drawer.style.fontWeight = 'bold';
+					drawer.style.textAlign = 'center';
+					drawer.style.paddingTop = '40px';
+					div_drawer.appendChild(drawer);
+				}
 			}
 			else{
 				body.appendChild(saved_configurations[current_drawer_index].config);
