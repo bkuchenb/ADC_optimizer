@@ -24,7 +24,6 @@ button{
 /*Placed in header_center.*/
 .logo{
 	background-color: #e6eeff;
-	
 	font: 36px Palatino Linotype;
 	font-weight: bold;
 	height: 100px;
@@ -124,7 +123,7 @@ th{
 	padding: 5px;
 	text-align: left;
 	vertical-align: top;/*Keep all elements flush with the top*/
-	width: 250px;/*24%;*/
+	width: 24%;
 }
 .bin_6{
 	background-color: white;
@@ -136,5 +135,5 @@ th{
 	text-align: left;
 	text-overflow: ellipsis;
 	vertical-align: top;/*Keep all elements flush with the top*/
-	width: 375px;/*24%;*/
+	width: 375px;
 }
