@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<title>ADC Layout</title>
+	<meta charset="utf-8">
+	<link type="text/css" href="css/style.css" rel="stylesheet" media="screen">
+	<link type="text/css" href="css/style_print.css" rel="stylesheet" media="print">
+</head>
+<header>
+	<div id="container_01">
+		<div id="temp1" draggable="true" class="temp">Holding Area</div>
+		<div id="temp2" draggable="true" class="temp">Holding Area</div>
+		<div id="header_center">
+			<div class="logo">ADC Optimizer</div>
+		</div>
+		<div id="temp3" draggable="true" class="temp">Holding Area</div>
+		<div id="temp4" draggable="true" class="temp">Holding Area</div>
+	</div>
+	<div id="container_02">
+		<nav id="navbar">
+			<button id="btn_stations">Get Stations</button>
+		</nav>
+	</div>
+</header>
+	<div id="container_03">
+		<div id="body" class="body_center">
+		<p>Format for csv file: Station,MedId,MedDescription,Location,Vends,Avg/Wk</p>
+			<input type="file" id="input_file" name="input[]" multiple />
+		</div>
+	</div>
+	<script type="text/javascript" src="layout.js"></script>
+</body>
+</html>

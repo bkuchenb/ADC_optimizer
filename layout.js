@@ -1,0 +1,556 @@
+//Variables to store the inventory.
+var input = [];
+var station_data = [];
+
+//Variables to zebra stripe table rows.
+var counter = 0;
+var color = '#e6eeff';
+//Add a listener to the file browse button.
+document.getElementById('input_file').addEventListener('change', handleFileSelect, false);
+//Add listeners to the default buttons.
+var btn_stations = document.getElementById('btn_stations');
+btn_stations.addEventListener('click', get_stations, false);
+//Add listeners to the temp cells in the header.
+create_listener_drag(document.getElementById('temp1'));
+create_listener_drop(document.getElementById('temp1'));
+create_listener_drag(document.getElementById('temp2'));
+create_listener_drop(document.getElementById('temp2'));
+create_listener_drag(document.getElementById('temp3'));
+create_listener_drop(document.getElementById('temp3'));
+create_listener_drag(document.getElementById('temp4'));
+create_listener_drop(document.getElementById('temp4'));
+
+/*     Global variables     */
+var body = document.getElementById('body');
+var navbar = document.getElementById('navbar');
+var drawer_selected = false;
+var drawer_saved = false;
+var current_drawer = '';
+var current_drawer_index = '';
+var saved_configurations = [];
+
+/*This function is called when a file is choosen.
+  It saves the csv data in and array named input.
+*/
+function handleFileSelect(evt){
+	//FileList object
+	var files = evt.target.files;
+
+	//Loop through the FileList and and save the data in an array.
+	for (var i = 0; i < files.length; i++){
+		f = files[i];
+		//Only process csv files.
+		if(!f.name.match('\.csv')){
+		continue;
+		}
+
+		var reader = new FileReader();
+
+		//Capture the file information.
+		reader.onload = (function(theFile){
+			return function(e){
+				var contents = e.target.result;
+				//Save the lines in an array.
+				var lines = contents.split(/\n/);
+				//Save the header.
+				var header = lines[0].split(/,/);
+				//Remove the "/" character from the last header entry.
+				header[header.length - 1] = 'Avg_Wk';
+				//Create a temp variable to split a single line.
+				var ln_temp = [];
+				//Get the lines from the file.
+				for(j = 1; j < lines.length; j++){
+					//Split the line, ignore commas within quotes.
+					ln_temp = lines[j].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+					//Add the line as an object to the input list.
+					var temp_obj = {};
+					for(k = 0; k < ln_temp.length; k++){
+						temp_obj[header[k]] = ln_temp[k];
+					}
+					input.push(temp_obj);
+				}
+			}
+		})(f);
+
+		//Read the file.
+		reader.readAsText(f);
+	}
+	//Make the Get Stations button visible.
+	document.getElementById('btn_stations').style.visibility = 'visible';
+}
+/*This function is called when the "Get Stations" button is clicked.
+  It removes the file input box and creates a button for each unique station
+  found in the input array.
+*/
+function get_stations(){
+	//Clear the file input box.
+	body.innerHTML = '';
+	//Cycle through the input array and save the unique station names.
+	var station = '';
+	for(var x = 0; x < input.length; x++){
+		var temp = input[x].Station;
+		if(temp != station){
+			station = temp;
+			//For each station, create a button.
+			if(station != ''){
+				create_station_buttons(station);
+			}
+		}
+	}
+	//Hide the Get Stations button.
+	btn_stations.style.visibility = 'hidden';
+}
+/*This function is called after all the unique stations have
+  been identified and saved in an array. It creates buttons
+  for each station and places them in the body.
+*/
+function create_station_buttons(station){
+	//Change the width of the body element.
+	body.style.width = '50%';
+	var btn_temp = document.createElement('button');
+	//Set the class name for the button.
+	btn_temp.className = 'btn_station';
+	btn_temp.innerHTML = station;
+	body.appendChild(btn_temp);
+	create_listener_station_button(btn_temp);
+}
+/*This function adds an event listener to a station button.
+  When the button is pressed, loads the station data into a table.
+  It then creates buttons in the navbar that are used to select a
+  drawer configuration.
+*/
+function create_listener_station_button(btn_temp){
+	btn_temp.addEventListener('click', function(event){
+		event.preventDefault();
+		//Create a reset button and add it to the navbar.
+		var btn_reset = document.createElement('button');
+		btn_reset.id = 'btn_reset';
+		btn_reset.innerHTML = 'Reset';
+		btn_reset.addEventListener('click', reset_display, false);
+		navbar.appendChild(btn_reset);
+		//Create a save button and add it to the navbar.
+		var btn_save = document.createElement('button');
+		btn_save.id = 'btn_save';
+		btn_save.innerHTML = 'Save';
+		btn_save.addEventListener('click', save_configuration, false);
+		navbar.appendChild(btn_save);
+		
+		//Change the width of the body element.
+		body.style.width = '100%';
+		//Save the station data that corresponds to the clicked button.
+		for(var y = 0; y < input.length; y++){
+			if(input[y].Station == btn_temp.innerHTML){
+				station_data.push(input[y]);
+			}
+		}
+		//Div element that will hold station data table.
+		var div_table = document.createElement('div');
+		div_table.id = 'div_table';
+		//Table element that will hold station data.
+		var table = document.createElement('table');
+		table.id = 'table_1';
+		//Remove the buttons and add a table to the body.
+		body.innerHTML = '';
+		body.style.textAlign = 'left';
+		body.appendChild(div_table);
+		div_table.appendChild(table);
+		//Create the table header and add it to the table.
+		var table_header = document.createElement('thead');
+		table.appendChild(table_header);
+		//Create a row in the table header and add it to the table header.
+		var header_row = document.createElement('tr');
+		table_header.appendChild(header_row);
+		//Create the cells and add them to the row.
+		var cell_header_0 = document.createElement('th');
+		cell_header_0.innerHTML = 'MedId';
+		header_row.appendChild(cell_header_0);
+		var cell_header_1 = document.createElement('th');
+		cell_header_1.innerHTML = 'MedDescription';
+		header_row.appendChild(cell_header_1);
+		var cell_header_2 = document.createElement('th')
+		cell_header_2.innerHTML = 'Location';
+		header_row.appendChild(cell_header_2);
+		var cell_header_3 = document.createElement('th')
+		cell_header_3.innerHTML = 'Vends';
+		header_row.appendChild(cell_header_3);
+		//Create and add a table body element to the table.
+		var tbody = document.createElement('tbody');
+		tbody.id = 'table_body';
+		table.appendChild(tbody);
+		//Sort the station_data array by Vends.
+		station_data = station_data.sort(sort_obj_array);
+		function sort_obj_array(a,b){
+			if(parseInt(a.Vends) > parseInt(b.Vends))
+				return -1;
+			if(parseInt(a.Vends) < parseInt(b.Vends))
+				return 1;
+			return 0;
+		}
+		//Create rows in the table that contain the station data.
+		for(y = 0; y < station_data.length; y++){
+			create_row(station_data[y]);
+		}
+		//Add buttons to choose drawer configuration.
+		create_drawer_buttons();
+	}, false);
+}
+/*This function creates rows in a table that contain the
+  station data. It also adds a drag listener to each row
+  that saves the row id on dragstart.
+*/
+function create_row(line){
+	counter++;
+	//Create a new row in the table.
+	var row = document.createElement('tr');
+	row.className = 'table_row';
+	row.id = counter - 1;
+	//Allow the element to be draggable.
+	row.draggable = true;
+	//Create cells for the next item.
+	var cell_0 = document.createElement('td');
+	//Set the class name for the cell.
+	cell_0.className = 'MedId';
+	cell_0.innerHTML = line.MedId;
+	var cell_1 = document.createElement('td');
+	//Set the class name for the cell.
+	cell_1.className = 'MedDescription';
+	cell_1.innerHTML = line.MedDescription;
+	var cell_2 = document.createElement('td');
+	//Set the class name for the cell.
+	cell_2.className = 'Location';
+	cell_2.innerHTML = line.Location;
+	var cell_3 = document.createElement('td');
+	//Set the class name for the cell.
+	cell_3.className = 'Vends';
+	cell_3.innerHTML = line.Vends;
+	//Add all the cells to the row.
+	row.appendChild(cell_0);
+	row.appendChild(cell_1);
+	row.appendChild(cell_2);
+	row.appendChild(cell_3);
+	//Add the row to the tbody.
+	document.getElementById('table_body').appendChild(row);
+	//Zebra stripe the table rows.
+	if(counter % 2 == 0){
+		row.style.backgroundColor = color;
+	}
+	else{
+		row.style.backgroundColor = 'white';
+	}
+	//Create a listener to allow the row to be dragged.
+	create_listener_drag(row);
+}
+
+/*This function creates buttons in that navbar that load
+  drawer configurations when clicked. It calls a function
+  that adds the listener.
+*/
+function create_drawer_buttons(){
+	var drawer = ['1.1', '1.2', '2.1', '2.2', '3.1',
+			      '3.2', '4.1', '4.2', '5'];
+	var drawer_id = ['1_1', '1_2', '2_1', '2_2', '3_1',
+				     '3_2', '4_1', '4_2', '5'];
+	var tower = ['1.1', '1.2', '2.1', '2.2', '3.1',
+			      '3.2', '4.1', '4.2'];
+	var tower_id = ['1_1', '1_2', '2_1', '2_2', '3_1',
+				     '3_2', '4_1', '4_2'];
+	var div_temp = document.createElement('div');
+	div_temp.id = 'navbar_row_1';
+	//Create the buttons for the main drawers.
+	for(var i = 0; i < drawer.length; i++){
+		var btn_temp = document.createElement('button');
+		btn_temp.innerHTML = 'Main '.concat(drawer[i]);
+		btn_temp.id = 'M'.concat(drawer_id[i]);
+		div_temp.appendChild(btn_temp);
+		create_listener_drawer_button(btn_temp, 23);
+	}
+	//Create the buttons for the auxillary drawers.
+	for(var i = 0; i < drawer.length; i++){
+		var btn_temp = document.createElement('button');
+		btn_temp.innerHTML = 'Aux '.concat(drawer[i]);
+		btn_temp.id = 'A'.concat(drawer_id[i]);
+		div_temp.appendChild(btn_temp);
+		create_listener_drawer_button(btn_temp, 23);
+	}
+	//Create the buttons for the tower drawers.
+	for(var i = 0; i < tower.length; i++){
+		var btn_temp = document.createElement('button');
+		btn_temp.innerHTML = 'Tower '.concat(tower[i]);
+		btn_temp.id = 'T'.concat(tower_id[i]);
+		div_temp.appendChild(btn_temp);
+		create_listener_drawer_button(btn_temp, 20);
+	}
+	navbar.appendChild(div_temp);
+}
+/*This function creates a listener for each drawer
+  configuration button. When clicked, each button creates
+  a grid representing what the physical drawer looks like.
+  Each cell in the grid represents a pocket. A drop listener is
+  attached to each cell to allow the table rows to be dragged
+  and dropped into the pocket.
+*/
+function create_listener_drawer_button(btn, num){
+	//When clicked, create a grid.
+	btn.addEventListener('click', function(event){
+		event.preventDefault();
+		//Set the current drawer.
+		current_drawer = btn.innerHTML;
+		//Display the Holding Areas.
+		document.getElementById('temp1').style.visibility = 'visible';
+		document.getElementById('temp2').style.visibility = 'visible';
+		document.getElementById('temp3').style.visibility = 'visible';
+		document.getElementById('temp4').style.visibility = 'visible';
+		//Create div element that will hold drawer configuration.
+		var div_drawer = document.createElement('div');
+		div_drawer.id = 'div_drawer';
+		//Check to see if this drawer has already been configured.
+		for(var i = 0; i < saved_configurations.length; i++){
+			if(saved_configurations[i].id == current_drawer){
+				drawer_saved = true;
+				current_drawer_index = i;
+				break;
+			}
+			else{
+				drawer_saved = false;
+			}
+		}
+		if(!drawer_selected){
+			if(!drawer_saved){
+				//Add the div to the body.
+				body.appendChild(div_drawer);
+				if(num == 20){
+					var drawer = document.createElement('div');
+					pocket_array = [5, 10, 15, 20,
+									4, 9, 14, 19,
+									3, 8, 13, 18,
+									2, 7, 12, 17,
+									1, 6, 11, 16];
+					for(var i = 0; i < num; i++){
+						if(i == 0 || i == 4 || i == 8 || i == 12 || i == 16){
+							var row = document.createElement('div');
+							row.className = 'drawer_row';
+						}
+						var cell = document.createElement('div');
+						cell.innerHTML = pocket_array[i];
+						cell.className = 'drawer_cell';
+						cell.draggable = true;
+						cell.id = 'pocket_'.concat(pocket_array[i]);
+						//Create a listener to allow table rows to be dropped.
+						create_listener_drop(cell);
+						//Create a listener to allow dragging.
+						create_listener_drag(cell);
+						row.appendChild(cell);
+						if(i == 3 || i == 7 || i == 11 || i == 15 || i == 19){
+							drawer.appendChild(row);
+						}
+					}
+					div_drawer.appendChild(drawer);
+				}
+				if(num == 8){
+					var drawer = document.createElement('div');
+					pocket_array = [22, 24, 26, 28,
+									21, 23, 25, 27];
+					for(var i = 0; i < num; i++){
+						if(i == 0 || i == 4){
+							var row = document.createElement('div');
+							row.className = 'drawer_row';
+						}
+						var cell = document.createElement('div');
+						cell.innerHTML = pocket_array[i];
+						cell.className = 'drawer_cell';
+						if(pocket_array[i] == 27 || pocket_array[i] == 28){
+							cell.className = 'bin_6';					
+						}
+						//Create a listener to allow table rows to be dropped.
+						create_listener_drop(cell);
+						row.appendChild(cell);
+						if(i == 3 || i == 7){
+							drawer.appendChild(row);
+						}
+					}
+					
+					div_drawer.appendChild(drawer);
+				}	
+			}
+			else{
+				body.appendChild(saved_configurations[current_drawer_index].config);
+			}
+			drawer_selected = true;
+		}
+		else{
+			window.alert('Save the station data before choosing a new drawer.');
+		}
+	}, false);
+}
+/*This function creates a dragstart listener for an element.
+  When dragged, the element id is saved.
+*/
+function create_listener_drag(drag_element){
+	drag_element.addEventListener('drag', function(event){
+		event.preventDefault();
+	}, false);
+	drag_element.addEventListener('dragstart', function(event){
+		event.dataTransfer.setData('text', drag_element.id);
+	}, false);
+}
+/*This function creates a drop listener for each cell in
+  the drawer grid and each holding area. If a table row is dropped into a cell,
+  it extracts the data from the row and calculates a par level.
+  If data from the holding area is dropped in, it copies and pastes
+  the data.
+*/
+function create_listener_drop(drop_element){
+	drop_element.addEventListener('dragover', function(event){
+		event.preventDefault();
+	}, false);
+	drop_element.addEventListener('drop', function(event){
+		/*Check the source to see where the data comes from:
+		  First statement: holding area --> pocket.
+		  Second statement: pocket --> holding area.
+		  Third statement: pocket --> pocket.
+		  Fourth statement: table --> pocket.
+		*/
+		var source_id = event.dataTransfer.getData('text');
+		if(source_id.length > 4 && source_id.substring(0,4) == 'temp'){
+			var data = '<br>'.concat(document.getElementById(source_id).innerHTML);
+			event.target.innerHTML = event.target.innerHTML.concat(data);
+			//Clear the original cell.
+			document.getElementById(source_id).innerHTML = 'Holding Area';
+			event.dataTransfer.clearData();
+		}
+		else if(source_id.length > 4 && source_id.substring(0,6) == 'pocket'
+				&& drop_element.id.substring(0,4) == 'temp'){
+			var data = document.getElementById(source_id).innerHTML;
+			//Split the lines of html.
+			var html_data = data.split('<br>');
+			//Save the pocket number then remove it from the html.
+			var pocket = html_data[0];
+			//Remove the pocket number from the html.
+			html_data.shift();
+			//Add the html to the drop zone.
+			event.target.innerHTML = html_data.join('<br>');
+			//Clear the original cell.
+			document.getElementById('pocket_'.concat(pocket)).innerHTML = pocket;
+			event.dataTransfer.clearData();
+		}
+		else if(source_id.length > 4 && source_id.substring(0,6) == 'pocket'
+				&& drop_element.id.substring(0,6) == 'pocket'){
+			var data = document.getElementById(source_id).innerHTML;
+			//Split the lines of html.
+			var html_data = data.split('<br>');
+			//Save the pocket number then remove it from the html.
+			var pocket = html_data[0];
+			//Remove the pocket number from the html.
+			html_data.shift();
+			html_data = '<br>'.concat(html_data.join('<br>'));
+			//Add the html to the drop zone.
+			event.target.innerHTML = event.target.innerHTML.concat(html_data);
+			//Clear the original cell.
+			document.getElementById('pocket_'.concat(pocket)).innerHTML = pocket;
+			event.dataTransfer.clearData();
+		}
+		else{
+			//Get the childNodes of the table row that is being dropped.
+			var source_cells = document.getElementById(source_id).childNodes;
+			//Save the MedId which is in the first cell.
+			var data = source_cells[0].innerHTML;
+			//Variable to save data if there is more than one entry.
+			var temp = [];
+			//Search the station_data array for the MedId.
+			for(var i = 0; i < station_data.length; i++){
+				if(station_data[i].MedId == data){
+					temp.push(station_data[i]);
+				}
+			}
+			//Create an html string to display the results in the drawer grid.
+			var str = '<br>MedId: '.concat(data);
+			str = str.concat('<br>');
+			//Check the length of the MedDescription and trim if needed.
+			if(temp[0].MedDescription.length > 45){
+				temp_desc = temp[0].MedDescription.substr(0, 44).concat('...');
+			}
+			else{
+				temp_desc = temp[0].MedDescription;
+			}
+			str = str.concat(temp_desc);
+			str = str.concat('<br>');
+			str = str.concat('Vends: ');
+			str = str.concat(temp[0].Vends);
+			str = str.concat('     Avg/Wk: ');
+			str = str.concat(temp[0].Avg_Wk);
+			str = str.concat('<br>');
+			str = str.concat('Max/Min: ');
+			var avg = parseFloat(temp[0].Avg_Wk);
+			//Create variable to hold the Max/Min numbers.
+			var txt_str = '';
+			//Calculate the max and min based on average weekly use.
+			if(avg <= 3){
+				txt_str = '4/1';
+			}
+			else if(avg > 3 && avg <= 4){
+				txt_str = '6/2';
+			}
+			else if(avg > 4 && avg <= 9){
+				txt_str = '12/3';
+			}
+			else if(avg > 9 && avg <= 15){
+				txt_str = '20/5';
+			}
+			else if(avg > 15 && avg <= 30){
+				txt_str = '40/10';
+			}
+			else if(avg > 30){
+				txt_str = '60/20';
+			}
+			//Create a text box to store the Max/Min settings.
+			var par_input = document.createElement('input');
+			par_input.style.border = 'none';
+			par_input.type = 'text';
+			par_input.defaultValue = txt_str;
+			//Add the text to the cell.
+			event.target.innerHTML = event.target.innerHTML.concat(str);
+			event.target.appendChild(par_input);
+			//Remove the row that was dropped.
+			document.getElementById('table_body').removeChild(document.getElementById(source_id));
+			event.dataTransfer.clearData();
+		}
+	}, false);
+}
+/*This function is used to reset the application. The original
+  input file data still remains and the station
+  buttons are displayed.
+*/
+function reset_display(){
+	//Hide the Holding Areas.
+	document.getElementById('temp1').style.visibility = 'hidden';
+	document.getElementById('temp2').style.visibility = 'hidden';
+	document.getElementById('temp3').style.visibility = 'hidden';
+	document.getElementById('temp4').style.visibility = 'hidden';
+	//Clear the navbar and body.
+	navbar.innerHTML = '';
+	body.innerHTML = '';
+	//Reset the flag.
+	drawer_selected = false;
+	//Display the station buttons.
+	get_stations();
+}
+/*This function is used to save a drawer configuration.
+*/
+function save_configuration(){
+	//Save the current configuration.
+	var temp_obj = {};
+	temp_obj['id'] = current_drawer;
+	temp_obj['config'] = document.getElementById('div_drawer');
+	//If the saved data was changed, update the array entry.
+	if(drawer_saved){
+		console.log('Resaving '.concat(current_drawer));
+		saved_configurations[current_drawer_index] = (temp_obj);
+	}
+	//If this is a new save, add to the end of the array.
+	else{
+		console.log('Saving data for '.concat(current_drawer));
+		saved_configurations.push(temp_obj);
+	}
+	body.removeChild(document.getElementById('div_drawer'));
+	drawer_selected = false;
+}

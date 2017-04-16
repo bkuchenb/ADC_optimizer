@@ -1,0 +1,138 @@
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+body{
+	background-color: #e6eeff;/*Create a light blue background.*/
+}
+button{
+	cursor: pointer;
+	margin: 2px;
+}
+#container_01{
+	position: relative;/*Stack on top of each other for smaller screens.*/
+    text-align: center;/*Center all divs placed inside this container.*/
+    width: 100%;/*Fill the entire width of the screen.*/
+}
+/*Placed in container 1.*/
+#header_center{
+	display: inline-block;
+	vertical-align: middle;
+}
+/*Placed in header_center.*/
+.logo{
+	background-color: #e6eeff;
+	font: 50px Palatino Linotype;
+	font-weight: bold;
+	height: 100px;
+	margin-bottom: 7px;
+	padding-top: 15px;
+	width: 500px;
+}
+.temp{
+	background-color: white;
+	border: 1px solid black;
+	cursor: move;
+	display: inline-block;
+	height: 100px;
+	margin-bottom: 7px;
+	padding: 5px;
+	text-align: left;
+	vertical-align: middle;
+	visibility: hidden;
+	width: 250px;
+}
+#container_02{
+	background-color: #99bbff;/*Create a blue background darker than container 1 and 3.*/
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+	position: relative;/*Stack on top of each other for smaller screens.*/
+	text-align: center;/*Center all divs placed inside this container.*/
+    width: 100%;/*Fill the entire screen.*/
+}
+/*Placed in container 2.*/
+#navbar{
+	margin: auto;
+	min-height: 40px;/*Get no smaller than this.*/
+	padding: 10px 0px;
+	text-align: center;/*Center all elements placed inside this container.*/
+	width: 100%;/*Fill the entire width of the screen.*/
+}
+#btn_stations{
+	visibility: hidden;
+}
+}
+#container_03{
+	position: relative;/*Stack on top of each other for smaller screens.*/
+    text-align: center;/*Center all divs placed inside this container.*/
+    width: 100%;/*Fill the entire width of the screen.*/
+}
+/*Placed in container 3.*/
+#body{
+	margin: auto;
+	padding: 10px 0;
+	text-align: center;/*Center all elements placed inside this div.*/
+}
+table{
+	border: 1px solid black;
+	margin: auto;
+	margin-top: 10px;
+	text-align: left;
+}
+tr:hover td{
+	background-color: #99bbff;/*Highlight using the same color as the navbar.*/
+}
+td{
+  background: transparent;
+  border: 1px solid black;
+}
+th{
+	background-color: #ccddff;/*Create a blue background lighter than the navbar.*/
+	border: 1px solid black;
+	padding: 0px 6px;
+}
+#div_table{
+	display: inline-block;
+	height: 700px;
+	overflow: scroll;
+	width: 35%;
+}
+.MedID, .MedDescription, .Location, .Vends{
+	cursor: move;
+}
+#div_drawer{
+	display: inline-block;
+	height: 700px;
+	overflow: scroll;
+	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 65%;
+}
+.drawer_row{
+	text-align: center;/*Center all elements placed inside this div.*/
+	width: 100%;
+}
+.drawer_cell{
+	background-color: white;
+	border: 1px solid black;
+	cursor: move;
+	display: inline-block;
+	height: 125px;
+	margin: 5px;
+	padding: 5px;
+	text-align: left;
+	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 250px;/*24%;*/
+}
+.bin_6{
+	background-color: white;
+	border: 1px solid black;
+	display: inline-block;
+	height: 125px;
+	margin: 5px;
+	padding: 5px;
+	text-align: left;
+	text-overflow: ellipsis;
+	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 375px;/*24%;*/
+}
