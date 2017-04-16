@@ -17,18 +17,21 @@ button{
 }
 /*Placed in container 1.*/
 #header_center{
+	border: 1px solid black;
 	display: inline-block;
 	vertical-align: middle;
+	width: 19%;
 }
 /*Placed in header_center.*/
 .logo{
 	background-color: #e6eeff;
-	font: 50px Palatino Linotype;
+	
+	font: 48px Palatino Linotype;
 	font-weight: bold;
 	height: 100px;
 	margin-bottom: 7px;
 	padding-top: 15px;
-	width: 500px;
+	width: 100%;
 }
 .temp{
 	background-color: white;
@@ -41,7 +44,7 @@ button{
 	text-align: left;
 	vertical-align: middle;
 	visibility: hidden;
-	width: 250px;
+	width: 19%;
 }
 #container_02{
 	background-color: #99bbff;/*Create a blue background darker than container 1 and 3.*/
