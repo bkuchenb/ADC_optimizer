@@ -1,18 +1,10 @@
-#container_01, #container_02{
+#container_01, #container_02, button{
 	display: none;
 }
 body{
 	background: white;
 }
-table{
+table, td{
 	border: 1px solid black;
-	margin: auto;
-	margin-top: 10px;
-	text-align: left;
-}
-td{
-  border: 1px solid black;
-}
-button{
-	display: none;
+	vertical-align: top;/*Keep all elements flush with the top*/
 }
