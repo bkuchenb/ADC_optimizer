@@ -26,6 +26,7 @@ var body = document.getElementById('body');
 var navbar = document.getElementById('navbar');
 var drawer_selected = false;
 var drawer_saved = false;
+var last_button_clicked = '';
 var current_drawer = '';
 var current_drawer_index = '';
 var saved_configurations = [];
@@ -139,7 +140,7 @@ function create_listener_station_button(btn_temp){
 		var btn_save = document.createElement('button');
 		btn_save.id = 'btn_save';
 		btn_save.innerHTML = 'Save';
-		btn_save.addEventListener('click', save_configuration, false);
+		//btn_save.addEventListener('click', save_configuration, false);
 		navbar.appendChild(btn_save);
 		//Change the width of the body element.
 		body.style.width = '100%';
@@ -299,6 +300,19 @@ function create_listener_drawer_button(btn){
 	//When clicked, create a grid.
 	btn.addEventListener('click', function(event){
 		event.preventDefault();
+		//Save the last drawer configuration.
+		if(drawer_selected){
+			save_configuration();
+			btn.style.backgroundColor = '#e6eeff';
+			btn.style.border = '3px solid pink';
+			last_button_clicked.style.backgroundColor = '';
+			last_button_clicked.style.border = '';
+		}
+		else{
+			btn.style.backgroundColor = '#e6eeff';
+			btn.style.border = '3px solid pink';
+			drawer_selected = true;
+		}
 		//Set the current drawer.
 		current_drawer = btn.innerHTML;
 		//Display the Holding Areas.
@@ -320,16 +334,41 @@ function create_listener_drawer_button(btn){
 				drawer_saved = false;
 			}
 		}
-		if(!drawer_selected){
-			if(!drawer_saved){
-				//Add the div to the body.
-				body.appendChild(div_drawer);
-				if(btn.id == 'T1_1' || btn.id == 'T3_1'){
-					pocket_array = [5, 10, 15, 20,
-									4, 9, 14, 19,
-									3, 8, 13, 18,
-									2, 7, 12, 17,
-									1, 6, 11, 16];
+		if(!drawer_saved){
+			//Add the div to the body.
+			body.appendChild(div_drawer);
+			if(btn.id == 'T1_1' || btn.id == 'T3_1'){
+				pocket_array = [5, 10, 15, 20,
+								4, 9, 14, 19,
+								3, 8, 13, 18,
+								2, 7, 12, 17,
+								1, 6, 11, 16];
+				for(var i = 0; i < 20; i++){
+					if(i == 0 || i == 4 || i == 8 || i == 12 || i == 16){
+						var row = document.createElement('div');
+						row.className = 'drawer_row';
+					}
+					var cell = document.createElement('div');
+					cell.innerHTML = pocket_array[i];
+					cell.className = 'drawer_cell';
+					cell.draggable = true;
+					cell.id = 'pocket_'.concat(pocket_array[i]);
+					//Create a listener to allow table rows to be dropped.
+					create_listener_drop(cell);
+					//Create a listener to allow dragging.
+					create_listener_drag(cell);
+					row.appendChild(cell);
+					if(i == 3 || i == 7 || i == 11 || i == 15 || i == 19){
+						div_drawer.appendChild(row);
+					}
+				}
+			}
+			else if(btn.id == 'T1_2'){
+					pocket_array = [25, 30, 35, 40,
+									24, 29, 34, 39,
+									23, 28, 33, 38,
+									22, 27, 32, 37,
+									21, 26, 31, 36];
 					for(var i = 0; i < 20; i++){
 						if(i == 0 || i == 4 || i == 8 || i == 12 || i == 16){
 							var row = document.createElement('div');
@@ -350,132 +389,105 @@ function create_listener_drawer_button(btn){
 						}
 					}
 				}
-				else if(btn.id == 'T1_2'){
-						pocket_array = [25, 30, 35, 40,
-										24, 29, 34, 39,
-										23, 28, 33, 38,
-										22, 27, 32, 37,
-										21, 26, 31, 36];
-						for(var i = 0; i < 20; i++){
-							if(i == 0 || i == 4 || i == 8 || i == 12 || i == 16){
-								var row = document.createElement('div');
-								row.className = 'drawer_row';
-							}
-							var cell = document.createElement('div');
+			else if(btn.id == 'T2_1' || btn.id == 'T4_1'){
+					pocket_array = [5, 10, 15, 20, 25, 30, 35, 40,
+									4,  9, 14, 19, 24, 29, 34, 39,
+									3,  8, 13, 18, 23, 28, 33, 38,
+									2,  7, 12, 17, 22, 27, 32, 37,
+									1,  6, 11, 16, 21, 26, 31, 36];
+					for(var i = 0; i < 40; i++){
+						if(i == 0 || i == 8 || i == 16 || i == 24 || i == 32){
+							var row = document.createElement('div');
+							row.className = 'drawer_row';
+						}
+						var cell = document.createElement('div');
+						if(btn.id == 'T2_1'){
+							cell.innerHTML = pocket_array[i].toString().concat(' (POP drawer)');
+						}
+						else{
 							cell.innerHTML = pocket_array[i];
-							cell.className = 'drawer_cell';
-							cell.draggable = true;
-							cell.id = 'pocket_'.concat(pocket_array[i]);
-							//Create a listener to allow table rows to be dropped.
-							create_listener_drop(cell);
-							//Create a listener to allow dragging.
-							create_listener_drag(cell);
-							row.appendChild(cell);
-							if(i == 3 || i == 7 || i == 11 || i == 15 || i == 19){
-								div_drawer.appendChild(row);
-							}
 						}
-					}
-				else if(btn.id == 'T2_1' || btn.id == 'T4_1'){
-						for(var i = 0; i < 40; i++){
-							if(i == 0 || i == 5 || i == 10 || i == 15 || i == 20
-								|| i == 25 || i == 30 || i == 35){
-								var row = document.createElement('div');
-								row.className = 'drawer_row';
-							}
-							var cell = document.createElement('div');
-							if(btn.id == 'T2_1'){
-								cell.innerHTML = (i + 1).toString().concat(' (POP drawer)');
-							}
-							else{
-								cell.innerHTML = (i + 1).toString();
-							}
-							
-							cell.className = 'two_inch_bin';
-							cell.draggable = true;
-							cell.id = 'pocket_'.concat((i + 1).toString());
-							//Create a listener to allow table rows to be dropped.
-							create_listener_drop(cell);
-							//Create a listener to allow dragging.
-							create_listener_drag(cell);
-							row.appendChild(cell);
-							if(i == 4 || i == 9 || i == 14 || i == 19 || i == 24
-								|| i == 29 || i == 34 || i == 39){
-								div_drawer.appendChild(row);
-							}
-						}
-				}
-				else if(btn.id == 'T2_2'){
-					var drawer = document.createElement('div');
-					drawer.innerHTML = 'Tower 2.2 is used for Patient Specific Meds.';
-					drawer.style.font = '36px Palatino Linotype';
-					drawer.style.fontWeight = 'bold';
-					drawer.style.textAlign = 'center';
-					drawer.style.paddingTop = '40px';
-					div_drawer.appendChild(drawer);
-				}
-				else if(btn.id == 'T3_2'){
-					pocket_array = [22, 24, 26, 28,
-									21, 23, 25, 27];
-					for(var i = 0; i < 8; i++){
-						if(i == 0 || i == 4){
-							var row = document.createElement('div');
-							row.className = 'drawer_row';
-						}
-						var cell = document.createElement('div');
-						cell.innerHTML = pocket_array[i];
-						cell.className = 'four_inch_bin';
-						if(pocket_array[i] == 27 || pocket_array[i] == 28){
-							cell.className = 'six_inch_bin';					
-						}
+						
+						cell.className = 'two_inch_bin';
+						cell.draggable = true;
+						cell.id = 'pocket_'.concat(pocket_array[i]);
 						//Create a listener to allow table rows to be dropped.
 						create_listener_drop(cell);
+						//Create a listener to allow dragging.
+						create_listener_drag(cell);
 						row.appendChild(cell);
-						if(i == 3 || i == 7){
+						if(i == 7 || i == 15 || i == 23 || i == 31 || i == 39){
 							div_drawer.appendChild(row);
 						}
 					}
-				}
-				else if(btn.id == 'T4_2'){
-					pocket_array = [42, 44, 46, 48,
-									41, 43, 45, 47];
-					for(var i = 0; i < 8; i++){
-						if(i == 0 || i == 4){
-							var row = document.createElement('div');
-							row.className = 'drawer_row';
-						}
-						var cell = document.createElement('div');
-						cell.innerHTML = pocket_array[i];
-						cell.className = 'four_inch_bin';
-						if(pocket_array[i] == 47 || pocket_array[i] == 48){
-							cell.className = 'six_inch_bin';					
-						}
-						//Create a listener to allow table rows to be dropped.
-						create_listener_drop(cell);
-						row.appendChild(cell);
-						if(i == 3 || i == 7){
-							div_drawer.appendChild(row);
-						}
+			}
+			else if(btn.id == 'T2_2'){
+				var drawer = document.createElement('div');
+				drawer.innerHTML = 'Tower 2.2 is used for Patient Specific Meds.';
+				drawer.style.font = '36px Palatino Linotype';
+				drawer.style.fontWeight = 'bold';
+				drawer.style.textAlign = 'center';
+				drawer.style.paddingTop = '40px';
+				div_drawer.appendChild(drawer);
+			}
+			else if(btn.id == 'T3_2'){
+				pocket_array = [22, 24, 26, 28,
+								21, 23, 25, 27];
+				for(var i = 0; i < 8; i++){
+					if(i == 0 || i == 4){
+						var row = document.createElement('div');
+						row.className = 'drawer_row';
+					}
+					var cell = document.createElement('div');
+					cell.innerHTML = pocket_array[i];
+					cell.className = 'four_inch_bin';
+					if(pocket_array[i] == 27 || pocket_array[i] == 28){
+						cell.className = 'six_inch_bin';					
+					}
+					//Create a listener to allow table rows to be dropped.
+					create_listener_drop(cell);
+					row.appendChild(cell);
+					if(i == 3 || i == 7){
+						div_drawer.appendChild(row);
 					}
 				}
-				else{
-					var drawer = document.createElement('div');
-					drawer.innerHTML = 'This drawer is under construction.';
-					drawer.style.font = '36px Palatino Linotype';
-					drawer.style.fontWeight = 'bold';
-					drawer.style.textAlign = 'center';
-					drawer.style.paddingTop = '40px';
-					div_drawer.appendChild(drawer);
+			}
+			else if(btn.id == 'T4_2'){
+				pocket_array = [42, 44, 46, 48,
+								41, 43, 45, 47];
+				for(var i = 0; i < 8; i++){
+					if(i == 0 || i == 4){
+						var row = document.createElement('div');
+						row.className = 'drawer_row';
+					}
+					var cell = document.createElement('div');
+					cell.innerHTML = pocket_array[i];
+					cell.className = 'four_inch_bin';
+					if(pocket_array[i] == 47 || pocket_array[i] == 48){
+						cell.className = 'six_inch_bin';					
+					}
+					//Create a listener to allow table rows to be dropped.
+					create_listener_drop(cell);
+					row.appendChild(cell);
+					if(i == 3 || i == 7){
+						div_drawer.appendChild(row);
+					}
 				}
 			}
 			else{
-				body.appendChild(saved_configurations[current_drawer_index].config);
+				var drawer = document.createElement('div');
+				drawer.innerHTML = 'This drawer is under construction.';
+				drawer.style.font = '36px Palatino Linotype';
+				drawer.style.fontWeight = 'bold';
+				drawer.style.textAlign = 'center';
+				drawer.style.paddingTop = '40px';
+				div_drawer.appendChild(drawer);
 			}
-			drawer_selected = true;
 		}
 		else{
-			window.alert('Save the station data before choosing a new drawer.');
+			body.appendChild(saved_configurations[current_drawer_index].config);
 		}
+		last_button_clicked = btn;
 	}, false);
 }
 /*This function creates a dragstart listener for an element.
@@ -622,11 +634,11 @@ function reset_display(){
 	document.getElementById('temp2').style.visibility = 'hidden';
 	document.getElementById('temp3').style.visibility = 'hidden';
 	document.getElementById('temp4').style.visibility = 'hidden';
-	//Clear the navbar and body.
+	//Clear the navbar.
 	navbar.innerHTML = '';
-	body.innerHTML = '';
-	//Reset the flag.
+	//Reset the flag and the station_data array.
 	drawer_selected = false;
+	station_data = [];
 	//Display the station buttons.
 	get_stations();
 }
@@ -640,15 +652,16 @@ function save_configuration(){
 	//If the saved data was changed, update the array entry.
 	if(drawer_saved){
 		console.log('Resaving '.concat(current_drawer));
+		//console.log(JSON.parse(localStorage.current_drawer));
 		saved_configurations[current_drawer_index] = (temp_obj);
 	}
 	//If this is a new save, add to the end of the array.
 	else{
 		console.log('Saving data for '.concat(current_drawer));
 		saved_configurations.push(temp_obj);
+		//localStorage.setItem(current_drawer, JSON.stringify(temp_obj));
 	}
 	body.removeChild(document.getElementById('div_drawer'));
-	drawer_selected = false;
 }
 /*This function is used to print a drawer configuration.
 */
