@@ -556,7 +556,7 @@ function create_listener_drop(drop_element){
 			document.getElementById('pocket_'.concat(pocket)).innerHTML = pocket;
 			event.dataTransfer.clearData();
 		}
-		else{
+		else if(source_id.length < 4 && drop_element.id.substring(0,6) == 'pocket'){
 			//Get the childNodes of the table row that is being dropped.
 			var source_cells = document.getElementById(source_id).childNodes;
 			//Save the MedId which is in the first cell.
