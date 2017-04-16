@@ -1,36 +1,9 @@
-.container_01, .container_02{
-	visibility: hidden;
-}
-.empty_row, .delete, .sqty, .sqty_order{
+#container_01, #container_02{
 	display: none;
 }
-
-.items, .qty, .source, .sqty, .uom, .lawnum, .desc, .btn_delete{
-	background-color: none;
-	border: none;
-}
-.items, .qty{
-	width: 75px;
-}
-.source, .source_order{
-	width: 50px;
-}
-.sqty, .sqty_order{
-	width: 100px;
-}
-.uom, .lawnum, .lawnum_order{
-	width: 110px;
-}
-.desc, .desc_order{
-	width: 400px;
-}
-.location{
-	display: visible;
+#div_table{
+	display: none;
 }
 #btn_print{
 	display: none;
-}
-}
-th{
-	border: none;
 }

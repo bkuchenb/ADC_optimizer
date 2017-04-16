@@ -129,13 +129,18 @@ function create_listener_station_button(btn_temp){
 		btn_reset.innerHTML = 'Reset';
 		btn_reset.addEventListener('click', reset_display, false);
 		navbar.appendChild(btn_reset);
+		//Create a print button and add it to the navbar.
+		var btn_print = document.createElement('button');
+		btn_print.id = 'btn_print';
+		btn_print.innerHTML = 'Print';
+		btn_print.addEventListener('click', print_drawer, false);
+		navbar.appendChild(btn_print);
 		//Create a save button and add it to the navbar.
 		var btn_save = document.createElement('button');
 		btn_save.id = 'btn_save';
 		btn_save.innerHTML = 'Save';
 		btn_save.addEventListener('click', save_configuration, false);
 		navbar.appendChild(btn_save);
-		
 		//Change the width of the body element.
 		body.style.width = '100%';
 		//Save the station data that corresponds to the clicked button.
@@ -654,4 +659,9 @@ function save_configuration(){
 	}
 	body.removeChild(document.getElementById('div_drawer'));
 	drawer_selected = false;
+}
+/*This function is used to print a drawer configuration.
+*/
+function print_drawer(){
+	window.print();
 }
