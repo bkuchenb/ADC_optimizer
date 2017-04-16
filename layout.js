@@ -325,7 +325,6 @@ function create_listener_drawer_button(btn){
 				//Add the div to the body.
 				body.appendChild(div_drawer);
 				if(btn.id == 'T1_1' || btn.id == 'T3_1'){
-					var drawer = document.createElement('div');
 					pocket_array = [5, 10, 15, 20,
 									4, 9, 14, 19,
 									3, 8, 13, 18,
@@ -347,13 +346,11 @@ function create_listener_drawer_button(btn){
 						create_listener_drag(cell);
 						row.appendChild(cell);
 						if(i == 3 || i == 7 || i == 11 || i == 15 || i == 19){
-							drawer.appendChild(row);
+							div_drawer.appendChild(row);
 						}
 					}
-					div_drawer.appendChild(drawer);
 				}
 				else if(btn.id == 'T1_2'){
-						var drawer = document.createElement('div');
 						pocket_array = [25, 30, 35, 40,
 										24, 29, 34, 39,
 										23, 28, 33, 38,
@@ -375,13 +372,11 @@ function create_listener_drawer_button(btn){
 							create_listener_drag(cell);
 							row.appendChild(cell);
 							if(i == 3 || i == 7 || i == 11 || i == 15 || i == 19){
-								drawer.appendChild(row);
+								div_drawer.appendChild(row);
 							}
 						}
-						div_drawer.appendChild(drawer);
 					}
 				else if(btn.id == 'T2_1' || btn.id == 'T4_1'){
-						var drawer = document.createElement('div');
 						for(var i = 0; i < 40; i++){
 							if(i == 0 || i == 5 || i == 10 || i == 15 || i == 20
 								|| i == 25 || i == 30 || i == 35){
@@ -406,10 +401,9 @@ function create_listener_drawer_button(btn){
 							row.appendChild(cell);
 							if(i == 4 || i == 9 || i == 14 || i == 19 || i == 24
 								|| i == 29 || i == 34 || i == 39){
-								drawer.appendChild(row);
+								div_drawer.appendChild(row);
 							}
 						}
-						div_drawer.appendChild(drawer);
 				}
 				else if(btn.id == 'T2_2'){
 					var drawer = document.createElement('div');
@@ -421,7 +415,6 @@ function create_listener_drawer_button(btn){
 					div_drawer.appendChild(drawer);
 				}
 				else if(btn.id == 'T3_2'){
-					var drawer = document.createElement('div');
 					pocket_array = [22, 24, 26, 28,
 									21, 23, 25, 27];
 					for(var i = 0; i < 8; i++){
@@ -439,13 +432,11 @@ function create_listener_drawer_button(btn){
 						create_listener_drop(cell);
 						row.appendChild(cell);
 						if(i == 3 || i == 7){
-							drawer.appendChild(row);
+							div_drawer.appendChild(row);
 						}
 					}
-					div_drawer.appendChild(drawer);
 				}
 				else if(btn.id == 'T4_2'){
-					var drawer = document.createElement('div');
 					pocket_array = [42, 44, 46, 48,
 									41, 43, 45, 47];
 					for(var i = 0; i < 8; i++){
@@ -463,10 +454,9 @@ function create_listener_drawer_button(btn){
 						create_listener_drop(cell);
 						row.appendChild(cell);
 						if(i == 3 || i == 7){
-							drawer.appendChild(row);
+							div_drawer.appendChild(row);
 						}
 					}
-					div_drawer.appendChild(drawer);
 				}
 				else{
 					var drawer = document.createElement('div');
@@ -663,5 +653,8 @@ function save_configuration(){
 /*This function is used to print a drawer configuration.
 */
 function print_drawer(){
+	//Get the elements that need to be printed.
+	var print_data = document.getElementById('div_drawer');
+	
 	window.print();
 }
