@@ -17,7 +17,6 @@ button{
 }
 /*Placed in container 1.*/
 #header_center{
-	border: 1px solid black;
 	display: inline-block;
 	vertical-align: middle;
 	width: 19%;
@@ -26,7 +25,7 @@ button{
 .logo{
 	background-color: #e6eeff;
 	
-	font: 48px Palatino Linotype;
+	font: 36px Palatino Linotype;
 	font-weight: bold;
 	height: 100px;
 	margin-bottom: 7px;
