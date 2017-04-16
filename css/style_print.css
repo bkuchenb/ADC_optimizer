@@ -1,9 +1,18 @@
 #container_01, #container_02{
 	display: none;
 }
-#div_table{
-	display: none;
+body{
+	background: white;
 }
-#btn_print{
+table{
+	border: 1px solid black;
+	margin: auto;
+	margin-top: 10px;
+	text-align: left;
+}
+td{
+  border: 1px solid black;
+}
+button{
 	display: none;
 }
