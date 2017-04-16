@@ -495,7 +495,6 @@ function create_listener_drawer_button(btn){
 */
 function create_listener_drag(drag_element){
 	drag_element.addEventListener('drag', function(event){
-		event.preventDefault();
 	}, false);
 	drag_element.addEventListener('dragstart', function(event){
 		event.dataTransfer.setData('text', drag_element.id);
@@ -636,8 +635,10 @@ function reset_display(){
 	document.getElementById('temp4').style.visibility = 'hidden';
 	//Clear the navbar.
 	navbar.innerHTML = '';
-	//Reset the flag and the station_data array.
+	//Reset global variables.
 	drawer_selected = false;
+	drawer_saved = false;
+	saved_configurations = [];
 	station_data = [];
 	//Display the station buttons.
 	get_stations();
