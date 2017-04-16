@@ -120,6 +120,7 @@ th{
 	display: inline-block;
 	height: 125px;
 	margin: 5px;
+	overflow-y: scroll;
 	padding: 5px;
 	text-align: left;
 	vertical-align: top;/*Keep all elements flush with the top*/
