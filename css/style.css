@@ -7,6 +7,8 @@ body{
 	background-color: #e6eeff;/*Create a light blue background.*/
 }
 button{
+	background-color: #F0F0F0;
+	border: 1px solid black;
 	cursor: pointer;
 	margin: 2px;
 }
@@ -165,4 +167,7 @@ th{
 	text-align: left;
 	vertical-align: top;/*Keep all elements flush with the top*/
 	width: 30%;
+}
+#container_04{
+	visibility: hidden;
 }

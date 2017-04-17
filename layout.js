@@ -124,24 +124,8 @@ function create_station_buttons(station){
 function create_listener_station_button(btn_temp){
 	btn_temp.addEventListener('click', function(event){
 		event.preventDefault();
-		//Create a reset button and add it to the navbar.
-		var btn_reset = document.createElement('button');
-		btn_reset.id = 'btn_reset';
-		btn_reset.innerHTML = 'Reset';
-		btn_reset.addEventListener('click', reset_display, false);
-		navbar.appendChild(btn_reset);
-		//Create a print button and add it to the navbar.
-		var btn_print = document.createElement('button');
-		btn_print.id = 'btn_print';
-		btn_print.innerHTML = 'Print';
-		btn_print.addEventListener('click', print_drawer, false);
-		navbar.appendChild(btn_print);
-		//Create a save button and add it to the navbar.
-		var btn_save = document.createElement('button');
-		btn_save.id = 'btn_save';
-		btn_save.innerHTML = 'Save';
-		//btn_save.addEventListener('click', save_configuration, false);
-		navbar.appendChild(btn_save);
+		//Create buttons for admin.
+		create_admin_buttons();
 		//Change the width of the body element.
 		body.style.width = '100%';
 		//Save the station data that corresponds to the clicked button.
@@ -200,6 +184,29 @@ function create_listener_station_button(btn_temp){
 		//Add buttons to choose drawer configuration.
 		create_drawer_buttons();
 	}, false);
+}
+/*This function creates buttons that are used to Reset,
+  Print, and Save.
+*/
+function create_admin_buttons(){
+	//Create a reset button and add it to the navbar.
+	var btn_reset = document.createElement('button');
+	btn_reset.id = 'btn_reset';
+	btn_reset.innerHTML = 'Reset';
+	btn_reset.addEventListener('click', reset_display, false);
+	navbar.appendChild(btn_reset);
+	//Create a print button and add it to the navbar.
+	var btn_print = document.createElement('button');
+	btn_print.id = 'btn_print';
+	btn_print.innerHTML = 'Print';
+	btn_print.addEventListener('click', print_drawer, false);
+	navbar.appendChild(btn_print);
+	//Create a save button and add it to the navbar.
+	var btn_save = document.createElement('button');
+	btn_save.id = 'btn_save';
+	btn_save.innerHTML = 'Save';
+	//btn_save.addEventListener('click', save_configuration, false);
+	navbar.appendChild(btn_save);
 }
 /*This function creates rows in a table that contain the
   station data. It also adds a drag listener to each row
@@ -305,8 +312,9 @@ function create_listener_drawer_button(btn){
 			save_configuration();
 			btn.style.backgroundColor = '#e6eeff';
 			btn.style.border = '3px solid pink';
-			last_button_clicked.style.backgroundColor = '';
-			last_button_clicked.style.border = '';
+			//Reset the last button clicked.
+			last_button_clicked.style.backgroundColor = '#F0F0F0';
+			last_button_clicked.style.border = '1px solid black';
 		}
 		else{
 			btn.style.backgroundColor = '#e6eeff';
@@ -440,6 +448,7 @@ function create_listener_drawer_button(btn){
 					}
 					var cell = document.createElement('div');
 					cell.innerHTML = pocket_array[i];
+					cell.id = 'pocket_'.concat(pocket_array[i]);
 					cell.className = 'four_inch_bin';
 					if(pocket_array[i] == 27 || pocket_array[i] == 28){
 						cell.className = 'six_inch_bin';					
@@ -462,6 +471,7 @@ function create_listener_drawer_button(btn){
 					}
 					var cell = document.createElement('div');
 					cell.innerHTML = pocket_array[i];
+					cell.id = 'pocket_'.concat(pocket_array[i]);
 					cell.className = 'four_inch_bin';
 					if(pocket_array[i] == 47 || pocket_array[i] == 48){
 						cell.className = 'six_inch_bin';					
@@ -678,10 +688,12 @@ function print_drawer(){
 	//Get the elements that need to be printed.
 	var table_data = document.getElementById('div_drawer');
 	var row_data = table_data.childNodes;
-	//Clear the body.
-	body.innerHTML = '';
+	//Create a new div.
+	var container_4 = document.getElementById('container_04');
+	container_4.style.visibility = 'visible';
 	//Create a table.
 	var table_2 = document.createElement('table');
+	table_2.id = 'table_2';
 	for(var i = 0; i < row_data.length; i++){
 		//Get the cells in the row
 		var cell_data = row_data[i].childNodes;
@@ -695,6 +707,8 @@ function print_drawer(){
 		}
 		table_2.appendChild(row);	
 	}
-	body.appendChild(table_2);
+	container_4.appendChild(table_2);
 	window.print();
+	container_4.removeChild(table_2);
+	container_4.style.visibility = 'hidden';
 }
