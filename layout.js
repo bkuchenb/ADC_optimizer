@@ -24,6 +24,7 @@ create_listener_drop(document.getElementById('temp4'));
 /*     Global variables     */
 var body = document.getElementById('body');
 var navbar = document.getElementById('navbar');
+var admin = document.getElementById('admin');
 var drawer_selected = false;
 var drawer_saved = false;
 var last_button_clicked = '';

@@ -20,7 +20,7 @@ button{
 /*Placed in container 1.*/
 #header_center{
 	display: inline-block;
-	vertical-align: middle;
+	vertical-align: top;
 	width: 19%;
 }
 /*Placed in header_center.*/
@@ -28,9 +28,14 @@ button{
 	background-color: #e6eeff;
 	font: 36px Palatino Linotype;
 	font-weight: bold;
-	height: 100px;
-	margin-bottom: 7px;
-	padding-top: 15px;
+	height: 50px;
+	vertical-align: top;
+	width: 100%;
+}
+#admin{
+	background-color: #e6eeff;
+	height: 50px;
+	vertical-align: top;
 	width: 100%;
 }
 .temp{
