@@ -652,11 +652,15 @@ function create_listener_drop(drop_element){
   buttons are displayed.
 */
 function reset_display(){
-	//Hide the Holding Areas.
+	//Hide and clear the Holding Areas.
 	document.getElementById('temp1').style.visibility = 'hidden';
+	document.getElementById('temp1').innerHTML = 'Holding Area';
 	document.getElementById('temp2').style.visibility = 'hidden';
+	document.getElementById('temp2').innerHTML = 'Holding Area';
 	document.getElementById('temp3').style.visibility = 'hidden';
+	document.getElementById('temp3').innerHTML = 'Holding Area';
 	document.getElementById('temp4').style.visibility = 'hidden';
+	document.getElementById('temp4').innerHTML = 'Holding Area';
 	//Clear the navbar.
 	navbar.innerHTML = '';
 	//Reset global variables.
