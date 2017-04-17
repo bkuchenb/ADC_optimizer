@@ -361,10 +361,10 @@ function create_listener_drawer_button(btn){
 					cell.className = 'drawer_cell';
 					cell.draggable = true;
 					cell.id = 'pocket_'.concat(pocket_array[i]);
-					//Create a listener to allow table rows to be dropped.
-					create_listener_drop(cell);
 					//Create a listener to allow dragging.
 					create_listener_drag(cell);
+					//Create a listener to allow table rows to be dropped.
+					create_listener_drop(cell);
 					row.appendChild(cell);
 					if(i == 3 || i == 7 || i == 11 || i == 15 || i == 19){
 						div_drawer.appendChild(row);
@@ -387,10 +387,10 @@ function create_listener_drawer_button(btn){
 						cell.className = 'drawer_cell';
 						cell.draggable = true;
 						cell.id = 'pocket_'.concat(pocket_array[i]);
-						//Create a listener to allow table rows to be dropped.
-						create_listener_drop(cell);
 						//Create a listener to allow dragging.
 						create_listener_drag(cell);
+						//Create a listener to allow table rows to be dropped.
+						create_listener_drop(cell);
 						row.appendChild(cell);
 						if(i == 3 || i == 7 || i == 11 || i == 15 || i == 19){
 							div_drawer.appendChild(row);
@@ -419,10 +419,10 @@ function create_listener_drawer_button(btn){
 						cell.className = 'two_inch_bin';
 						cell.draggable = true;
 						cell.id = 'pocket_'.concat(pocket_array[i]);
-						//Create a listener to allow table rows to be dropped.
-						create_listener_drop(cell);
 						//Create a listener to allow dragging.
 						create_listener_drag(cell);
+						//Create a listener to allow table rows to be dropped.
+						create_listener_drop(cell);
 						row.appendChild(cell);
 						if(i == 7 || i == 15 || i == 23 || i == 31 || i == 39){
 							div_drawer.appendChild(row);
@@ -450,6 +450,7 @@ function create_listener_drawer_button(btn){
 					cell.innerHTML = pocket_array[i];
 					cell.id = 'pocket_'.concat(pocket_array[i]);
 					cell.className = 'four_inch_bin';
+					cell.draggable = true;
 					if(pocket_array[i] == 27 || pocket_array[i] == 28){
 						cell.className = 'six_inch_bin';					
 					}
@@ -475,6 +476,7 @@ function create_listener_drawer_button(btn){
 					cell.innerHTML = pocket_array[i];
 					cell.id = 'pocket_'.concat(pocket_array[i]);
 					cell.className = 'four_inch_bin';
+					cell.draggable = true;
 					if(pocket_array[i] == 47 || pocket_array[i] == 48){
 						cell.className = 'six_inch_bin';					
 					}
