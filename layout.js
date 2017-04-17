@@ -205,7 +205,7 @@ function create_admin_buttons(){
 	var btn_save = document.createElement('button');
 	btn_save.id = 'btn_save';
 	btn_save.innerHTML = 'Save';
-	btn_save.addEventListener('click', save_configuration, false);
+	btn_save.addEventListener('click', save_all, false);
 	navbar.appendChild(btn_save);
 }
 /*This function creates rows in a table that contain the
@@ -680,6 +680,21 @@ function save_configuration(){
 	temp_obj['config'] = document.getElementById('div_drawer');
 	//If the saved data was changed, update the array entry.
 	if(drawer_saved){
+		saved_configurations[current_drawer_index] = (temp_obj);
+	}
+	//If this is a new save, add to the end of the array.
+	else{
+		saved_configurations.push(temp_obj);
+	}
+	body.removeChild(document.getElementById('div_drawer'));
+}
+function save_all(){
+	//Save the current configuration.
+	var temp_obj = {};
+	temp_obj['id'] = current_drawer;
+	temp_obj['config'] = document.getElementById('div_drawer');
+	//If the saved data was changed, update the array entry.
+	if(drawer_saved){
 		console.log('Resaving '.concat(current_drawer));
 		//console.log(JSON.parse(localStorage.current_drawer));
 		saved_configurations[current_drawer_index] = (temp_obj);
@@ -690,7 +705,6 @@ function save_configuration(){
 		saved_configurations.push(temp_obj);
 		//localStorage.setItem(current_drawer, JSON.stringify(temp_obj));
 	}
-	body.removeChild(document.getElementById('div_drawer'));
 }
 /*This function is used to print a drawer configuration.
 */
