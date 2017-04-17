@@ -205,7 +205,7 @@ function create_admin_buttons(){
 	var btn_save = document.createElement('button');
 	btn_save.id = 'btn_save';
 	btn_save.innerHTML = 'Save';
-	//btn_save.addEventListener('click', save_configuration, false);
+	btn_save.addEventListener('click', save_configuration, false);
 	navbar.appendChild(btn_save);
 }
 /*This function creates rows in a table that contain the
@@ -453,6 +453,8 @@ function create_listener_drawer_button(btn){
 					if(pocket_array[i] == 27 || pocket_array[i] == 28){
 						cell.className = 'six_inch_bin';					
 					}
+					//Create a listener to allow dragging.
+					create_listener_drag(cell);
 					//Create a listener to allow table rows to be dropped.
 					create_listener_drop(cell);
 					row.appendChild(cell);
@@ -476,6 +478,8 @@ function create_listener_drawer_button(btn){
 					if(pocket_array[i] == 47 || pocket_array[i] == 48){
 						cell.className = 'six_inch_bin';					
 					}
+					//Create a listener to allow dragging.
+					create_listener_drag(cell);
 					//Create a listener to allow table rows to be dropped.
 					create_listener_drop(cell);
 					row.appendChild(cell);
