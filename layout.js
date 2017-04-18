@@ -31,6 +31,8 @@ var last_button_clicked = '';
 var current_drawer = '';
 var current_drawer_index = '';
 var saved_configurations = [];
+var floor = '';
+var station_column = '';
 
 /*This function is called when a file is choosen.
   It saves the csv data in and array named input.
@@ -88,6 +90,8 @@ function handleFileSelect(evt){
 function get_stations(){
 	//Clear the file input box.
 	body.innerHTML = '';
+	//Change the width of the body element.
+	body.style.width = '75%';
 	//Cycle through the input array and save the unique station names.
 	var station = '';
 	for(var x = 0; x < input.length; x++){
@@ -96,7 +100,7 @@ function get_stations(){
 			station = temp;
 			//For each station, create a button.
 			if(station != ''){
-				create_station_buttons(station);
+				create_station_buttons(station, station.substring(0,1));
 			}
 		}
 	}
@@ -107,14 +111,24 @@ function get_stations(){
   been identified and saved in an array. It creates buttons
   for each station and places them in the body.
 */
-function create_station_buttons(station){
-	//Change the width of the body element.
-	body.style.width = '50%';
+function create_station_buttons(station, temp_floor){
+	var div_temp = document.createElement('div');
+	div_temp.className = 'div_station_btn';
 	var btn_temp = document.createElement('button');
 	//Set the class name for the button.
 	btn_temp.className = 'btn_station';
 	btn_temp.innerHTML = station;
-	body.appendChild(btn_temp);
+	btn_temp.style.fontSize = '14px';
+	btn_temp.style.width = '100px';
+	div_temp.appendChild(btn_temp);
+	if(temp_floor != floor){
+		floor = temp_floor;
+		station_column = document.createElement('div');
+		station_column.id = 'station_column_'.concat(floor);
+		station_column.className = 'station_column';
+		body.appendChild(station_column);
+	}
+	station_column.appendChild(div_temp);
 	create_listener_station_button(btn_temp);
 }
 /*This function adds an event listener to a station button.
@@ -190,24 +204,22 @@ function create_listener_station_button(btn_temp){
   Print, and Save.
 */
 function create_admin_buttons(){
-	//Create a reset button and add it to the navbar.
+	//Create admin buttons and place them in the admin area.
 	var btn_reset = document.createElement('button');
 	btn_reset.id = 'btn_reset';
 	btn_reset.innerHTML = 'Reset';
 	btn_reset.addEventListener('click', reset_display, false);
-	navbar.appendChild(btn_reset);
-	//Create a print button and add it to the navbar.
+	admin.appendChild(btn_reset);
 	var btn_print = document.createElement('button');
 	btn_print.id = 'btn_print';
 	btn_print.innerHTML = 'Print';
 	btn_print.addEventListener('click', print_drawer, false);
-	navbar.appendChild(btn_print);
-	//Create a save button and add it to the navbar.
+	admin.appendChild(btn_print);
 	var btn_save = document.createElement('button');
 	btn_save.id = 'btn_save';
 	btn_save.innerHTML = 'Save';
 	btn_save.addEventListener('click', save_all, false);
-	navbar.appendChild(btn_save);
+	admin.appendChild(btn_save);
 }
 /*This function creates rows in a table that contain the
   station data. It also adds a drag listener to each row
@@ -255,12 +267,24 @@ function create_row(line){
 	//Create a listener to allow the row to be dragged.
 	create_listener_drag(row);
 }
-
 /*This function creates buttons in that navbar that load
   drawer configurations when clicked. It calls a function
   that adds the listener.
 */
 function create_drawer_buttons(){
+	//Split the navbar into columns by adding divs.
+	for(var i = 0; i < 4; i++){
+		var navbar_section = document.createElement('div');
+		navbar_section.id = 'navbar_section_'.concat(i);
+		navbar_section.className = 'navbar_section';
+		for(var j = 0; j < 5; j++){
+			var div_temp = document.createElement('div');
+			div_temp.id = 'navbar_'.concat(i).concat('_').concat(j);
+			div_temp.className = 'navbar_column';
+			navbar_section.appendChild(div_temp);
+		}
+		navbar.appendChild(navbar_section);
+	}
 	var drawer = ['1.1', '1.2', '2.1', '2.2', '3.1',
 			      '3.2', '4.1', '4.2', '5'];
 	var drawer_id = ['1_1', '1_2', '2_1', '2_2', '3_1',
@@ -269,13 +293,16 @@ function create_drawer_buttons(){
 			      '3.2', '4.1', '4.2'];
 	var tower_id = ['1_1', '1_2', '2_1', '2_2', '3_1',
 				     '3_2', '4_1', '4_2'];
-	var div_temp = document.createElement('div');
-	div_temp.id = 'navbar_row_1';
+	var column_counter = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4];
 	//Create the buttons for the main drawers.
 	for(var i = 0; i < drawer.length; i++){
 		var btn_temp = document.createElement('button');
 		btn_temp.innerHTML = 'Main '.concat(drawer[i]);
 		btn_temp.id = 'M'.concat(drawer_id[i]);
+		btn_temp.className = 'btn_drawer';
+		var div_temp = document.createElement('div');
+		var col = 'navbar_0_'.concat(column_counter[i]);
+		document.getElementById(col).appendChild(div_temp);
 		div_temp.appendChild(btn_temp);
 		create_listener_drawer_button(btn_temp);
 	}
@@ -284,6 +311,10 @@ function create_drawer_buttons(){
 		var btn_temp = document.createElement('button');
 		btn_temp.innerHTML = 'Aux '.concat(drawer[i]);
 		btn_temp.id = 'A'.concat(drawer_id[i]);
+		btn_temp.className = 'btn_drawer';
+		var div_temp = document.createElement('div');
+		var col = 'navbar_1_'.concat(column_counter[i]);
+		document.getElementById(col).appendChild(div_temp);
 		div_temp.appendChild(btn_temp);
 		create_listener_drawer_button(btn_temp);
 	}
@@ -292,10 +323,23 @@ function create_drawer_buttons(){
 		var btn_temp = document.createElement('button');
 		btn_temp.innerHTML = 'Tower '.concat(tower[i]);
 		btn_temp.id = 'T'.concat(tower_id[i]);
+		btn_temp.className = 'btn_drawer';
+		var div_temp = document.createElement('div');
+		var col = 'navbar_2_'.concat(column_counter[i]);
+		document.getElementById(col).appendChild(div_temp);
 		div_temp.appendChild(btn_temp);
 		create_listener_drawer_button(btn_temp);
 	}
-	navbar.appendChild(div_temp);
+	//Create a button for the remote manager.
+	var btn_temp = document.createElement('button');
+	btn_temp.innerHTML = 'Remote';
+	btn_temp.id = 'R0';
+	btn_temp.className = 'btn_drawer';
+	var div_temp = document.createElement('div');
+	var col = 'navbar_3_0'
+	document.getElementById(col).appendChild(div_temp);
+	div_temp.appendChild(btn_temp);
+	create_listener_drawer_button(btn_temp);
 }
 /*This function creates a listener for each drawer
   configuration button. When clicked, each button creates
@@ -662,8 +706,9 @@ function reset_display(){
 	document.getElementById('temp3').innerHTML = 'Holding Area';
 	document.getElementById('temp4').style.visibility = 'hidden';
 	document.getElementById('temp4').innerHTML = 'Holding Area';
-	//Clear the navbar.
+	//Clear the navbar and admin area.
 	navbar.innerHTML = '';
+	admin.innerHTML = '';
 	//Reset global variables.
 	drawer_selected = false;
 	drawer_saved = false;

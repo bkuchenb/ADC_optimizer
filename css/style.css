@@ -17,14 +17,12 @@ button{
     text-align: center;/*Center all divs placed inside this container.*/
     width: 100%;/*Fill the entire width of the screen.*/
 }
-/*Placed in container 1.*/
-#header_center{
+#header_center{/*Placed in container 1.*/
 	display: inline-block;
 	vertical-align: top;
 	width: 19%;
 }
-/*Placed in header_center.*/
-.logo{
+.logo{/*Placed in header_center.*/
 	background-color: #e6eeff;
 	font: 36px Palatino Linotype;
 	font-weight: bold;
@@ -59,28 +57,40 @@ button{
 	text-align: center;/*Center all divs placed inside this container.*/
     width: 100%;/*Fill the entire screen.*/
 }
-/*Placed in container 2.*/
-#navbar{
+#navbar{/*Placed in container 2.*/
 	margin: auto;
 	min-height: 40px;/*Get no smaller than this.*/
 	padding: 10px 0px;
 	text-align: center;/*Center all elements placed inside this container.*/
 	width: 100%;/*Fill the entire width of the screen.*/
 }
+.navbar_section{
+	height: 40px;
+	display: inline-block;
+	vertical-align: top;
+	width: 22%;
+}.navbar_column{
+	height: 40px;
+	display: inline-block;
+	vertical-align: top;
+}
 #btn_stations{
 	visibility: hidden;
-}
 }
 #container_03{
 	position: relative;/*Stack on top of each other for smaller screens.*/
     text-align: center;/*Center all divs placed inside this container.*/
     width: 100%;/*Fill the entire width of the screen.*/
 }
-/*Placed in container 3.*/
-#body{
+#body{/*Placed in container 3.*/
 	margin: auto;
 	padding: 10px 0;
 	text-align: center;/*Center all elements placed inside this div.*/
+}
+.station_column{
+	display: inline-block;
+	text-align: left;
+	vertical-align: top;
 }
 table{
 	border: 1px solid black;
