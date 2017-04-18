@@ -2,7 +2,7 @@
 //Variables to store the inventory.
 var input = [];
 var station_data = [];
-console.log(localStorage.P1CS);
+
 //Variables to zebra stripe table rows.
 var counter = 0;
 var color = '#e6eeff';
@@ -32,7 +32,7 @@ var current_station = '';
 var current_drawer = '';
 var current_drawer_index = '';
 var saved_configurations = [];
-var local_storage = {};
+var storage = {};
 var floor = '';
 var station_column = '';
 
@@ -740,29 +740,24 @@ function save_configuration(){
 function save_all(){
 	//Save the current configuration.
 	var temp_obj = {};
-	if(current_station == 'P1CS'){
-		local_storage[current_station] = {};
-		local_storage[current_station][current_drawer] = {};
-		var pockets = document.getElementsByClassName('drawer_cell');
-		for(var i = 0; i < pockets.length; i++){
-			local_storage[current_station][current_drawer][pockets[i].id] = pockets[i].innerHTML;
-		}
-		console.log(local_storage.P1CS);
-		localStorage.setItem('P1CS', JSON.stringify(local_storage[current_station]));
+	storage[current_station] = {};
+	storage[current_station][current_drawer] = {};
+	var pockets = document.getElementsByClassName('drawer_cell');
+	for(var i = 0; i < pockets.length; i++){
+		storage[current_station][current_drawer][pockets[i].id] = pockets[i].innerHTML;
 	}
-	temp_obj['id'] = current_drawer;
+	localStorage.setItem('P1CS', JSON.stringify(storage[current_station]));
+	//temp_obj['id'] = current_drawer;
 	//temp_obj['config'] = document.getElementById('div_drawer');
 	//If the saved data was changed, update the array entry.
 	if(drawer_saved){
 		console.log('Resaving '.concat(current_drawer));
-		console.log(localStorage.current_drawer);
-		saved_configurations[current_drawer_index] = (temp_obj);
+		//saved_configurations[current_drawer_index] = (temp_obj);
 	}
 	//If this is a new save, add to the end of the array.
 	else{
 		console.log('Saving data for '.concat(current_drawer));
-		saved_configurations.push(temp_obj);
-		localStorage.setItem('current_drawer', JSON.stringify(temp_obj));
+		//saved_configurations.push(temp_obj);
 	}
 }
 /*This function is used to print a drawer configuration.
