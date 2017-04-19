@@ -92,8 +92,8 @@ function handleFileSelect(evt){
 function get_stations(){
 	//Clear the file input box.
 	body.innerHTML = '';
-	//Change the width of the body element.
-	body.style.width = '75%';
+	//Force the alignment to center.
+	body.style.textAlign = 'center';
 	//Cycle through the input array and save the unique station names.
 	var station = '';
 	for(var x = 0; x < input.length; x++){
@@ -102,7 +102,7 @@ function get_stations(){
 			station = temp;
 			//For each station, create a button.
 			if(station != ''){
-				create_station_buttons(station, station.substring(0,1));
+				create_station_buttons(station);
 			}
 		}
 	}
@@ -113,7 +113,17 @@ function get_stations(){
   been identified and saved in an array. It creates buttons
   for each station and places them in the body.
 */
-function create_station_buttons(station, temp_floor){
+function create_station_buttons(station){
+	//Skip stations that won't be configured.
+	if(station.substring(0,1) == 'z'){return 0;}
+	if(station.substring(1,4) == 'PVA'){return 0;}
+	//Check the first character of the station name.
+	if(isNaN(station.substring(0,1))){
+		var temp_floor = 'A';
+	}
+	else{
+		var temp_floor = station.substring(0,1);
+	}
 	var div_temp = document.createElement('div');
 	div_temp.className = 'div_station_btn';
 	var btn_temp = document.createElement('button');
@@ -534,6 +544,40 @@ function create_listener_drawer_button(btn){
 					create_listener_drop(cell);
 					row.appendChild(cell);
 					if(i == 3 || i == 7){
+						div_drawer.appendChild(row);
+					}
+				}
+			}
+			else if(btn.id.substring(0, 1) == 'M' || btn.id.substring(0, 1) == 'A'){
+				pocket_array = ['E1', 'E4',
+								'D1', 'D3', 'D5',
+								'C1', 'C2', 'C3', 'C4', 'C5', 'C6',
+								'B1', 'B2', 'B3', 'B4', 'B5', 'B6',
+								'A1', 'A2', 'A3', 'A4', 'A5', 'A6'];
+				for(var i = 0; i < 23; i++){
+					if(i == 0 || i == 2 || i == 5 || i == 11 || i == 17){
+						var row = document.createElement('div');
+						row.className = 'drawer_row';
+					}
+					var cell = document.createElement('div');
+					cell.innerHTML = pocket_array[i];
+					if(pocket_array[i].substring(0,1) == 'D'){
+						cell.className = 'double_cubie';
+					}
+					else if(pocket_array[i].substring(0,1) == 'E'){
+						cell.className = 'triple_cubie';
+					}
+					else{
+						cell.className = 'single_cubie';
+					}
+					cell.draggable = true;
+					cell.id = 'cubie_'.concat(pocket_array[i]);
+					//Create a listener to allow dragging.
+					create_listener_drag(cell);
+					//Create a listener to allow table rows to be dropped.
+					create_listener_drop(cell);
+					row.appendChild(cell);
+					if(i == 1 || i == 4 || i == 10 || i == 16 || i == 22){
 						div_drawer.appendChild(row);
 					}
 				}

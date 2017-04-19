@@ -143,6 +143,45 @@ th{
 	vertical-align: top;/*Keep all elements flush with the top*/
 	width: 23%;
 }
+.single_cubie{
+	background-color: white;
+	border: 1px solid black;
+	cursor: move;
+	display: inline-block;
+	height: 125px;
+	margin: 5px;
+	overflow-y: scroll;
+	padding: 5px;
+	text-align: left;
+	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 15%;
+}
+.double_cubie{
+	background-color: white;
+	border: 1px solid black;
+	cursor: move;
+	display: inline-block;
+	height: 125px;
+	margin: 5px;
+	overflow-y: scroll;
+	padding: 5px;
+	text-align: left;
+	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 30.8%;
+}
+.triple_cubie{
+	background-color: white;
+	border: 1px solid black;
+	cursor: move;
+	display: inline-block;
+	height: 125px;
+	margin: 5px;
+	overflow-y: scroll;
+	padding: 5px;
+	text-align: left;
+	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 46.7%;
+}
 .two_inch_bin{
 	background-color: white;
 	border: 1px solid black;
