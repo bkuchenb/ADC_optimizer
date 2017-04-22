@@ -237,6 +237,8 @@ function create_admin_buttons(){
 	btn_save.innerHTML = 'Save';
 	btn_save.addEventListener('click', save_all, false);
 	admin.appendChild(btn_save);
+	//Reduce the fontSize of the title.
+	document.getElementById('title').style.fontSize = '30px';
 }
 /*This function creates rows in a table that contain the
   station data. It also adds a drag listener to each row
