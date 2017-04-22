@@ -819,8 +819,8 @@ function save_all(){
 	var pockets = document.getElementsByClassName('pocket');
 	//Get the pocket data and save it to local storage.
 	for(var i = 0; i < pockets.length; i++){
-		localStorage.setItem(unique_index, true);
-		localStorage.setItem(unique_index.concat(pockets[i].id), pockets[i].innerHTML);
+		//localStorage.setItem(unique_index, true);
+		//localStorage.setItem(unique_index.concat(pockets[i].id), pockets[i].innerHTML);
 	}
 }
 /*This function is used to print a drawer configuration.
