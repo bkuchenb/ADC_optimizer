@@ -85,7 +85,8 @@ function handleFileSelect(evt){
 		reader.readAsText(f);
 	}
 	//Make the Get Stations button visible.
-	document.getElementById('btn_stations').style.visibility = 'visible';
+	btn_stations.style.display = 'inline';
+	btn_stations.style.visibility = 'visible';
 }
 /*This function is called when the "Get Stations" button is clicked.
   It removes the file input box and creates a button for each unique station
@@ -109,6 +110,7 @@ function get_stations(){
 		}
 	}
 	//Hide the Get Stations button.
+	btn_stations.style.display = 'none';
 	btn_stations.style.visibility = 'hidden';
 }
 /*This function is called after all the unique stations have
@@ -293,10 +295,13 @@ function create_drawer_buttons(){
 		navbar_section.id = 'navbar_section_'.concat(i);
 		navbar_section.className = 'navbar_section';
 		for(var j = 0; j < 5; j++){
+			//Only create one section for the Remote button.
+			if(i == 3 && j == 1){break;}
 			var div_temp = document.createElement('div');
 			div_temp.id = 'navbar_'.concat(i).concat('_').concat(j);
 			div_temp.className = 'navbar_column';
 			navbar_section.appendChild(div_temp);
+			
 		}
 		navbar.appendChild(navbar_section);
 	}

@@ -65,16 +65,19 @@ button{
 	width: 100%;/*Fill the entire width of the screen.*/
 }
 .navbar_section{
-	height: 40px;
 	display: inline-block;
 	vertical-align: top;
-	width: 22%;
-}.navbar_column{
-	height: 40px;
+	width: 30%;
+}
+#navbar_section_3{
+	width: 8%;
+}
+.navbar_column{
 	display: inline-block;
 	vertical-align: top;
 }
 #btn_stations{
+	display: none;
 	visibility: hidden;
 }
 #container_03{
