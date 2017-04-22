@@ -427,11 +427,11 @@ function create_listener_drawer_button(btn){
 					cell.draggable = true;
 					cell.id = 'pocket_'.concat(pocket_array[i]);
 					//Check to see if this drawer has already been configured.
-					if(localStorage.getItem(unique_index.concat(cell.id)) != 'undefined'){
-						cell.innerHTML = pocket_array[i];
+					if(localStorage.getItem(unique_index)){
+						cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
 					}
 					else{
-						cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
+						cell.innerHTML = pocket_array[i];
 					}
 					//Create a listener to allow dragging.
 					create_listener_drag(cell);
@@ -819,6 +819,7 @@ function save_all(){
 	var pockets = document.getElementsByClassName('pocket');
 	//Get the pocket data and save it to local storage.
 	for(var i = 0; i < pockets.length; i++){
+		localStorage.setItem(unique_index, true);
 		localStorage.setItem(unique_index.concat(pockets[i].id), pockets[i].innerHTML);
 	}
 }
