@@ -80,6 +80,9 @@ button{
 	display: none;
 	visibility: hidden;
 }
+.btn_drawer{
+	display: block;
+}
 #container_03{
 	position: relative;/*Stack on top of each other for smaller screens.*/
     text-align: center;/*Center all divs placed inside this container.*/

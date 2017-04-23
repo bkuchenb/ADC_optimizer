@@ -297,6 +297,8 @@ function create_drawer_buttons(){
 		navbar_section.id = 'navbar_section_'.concat(i);
 		navbar_section.className = 'navbar_section';
 		for(var j = 0; j < 5; j++){
+			//Only create 4 sections for the Tower buttons.
+			if(i == 2 && j == 4){break;}
 			//Only create one section for the Remote button.
 			if(i == 3 && j == 1){break;}
 			var div_temp = document.createElement('div');
@@ -322,10 +324,8 @@ function create_drawer_buttons(){
 		btn_temp.innerHTML = 'Main '.concat(drawer[i]);
 		btn_temp.id = 'M'.concat(drawer_id[i]);
 		btn_temp.className = 'btn_drawer';
-		var div_temp = document.createElement('div');
 		var col = 'navbar_0_'.concat(column_counter[i]);
-		document.getElementById(col).appendChild(div_temp);
-		div_temp.appendChild(btn_temp);
+		document.getElementById(col).appendChild(btn_temp);
 		create_listener_drawer_button(btn_temp);
 	}
 	//Create the buttons for the auxillary drawers.
@@ -334,10 +334,8 @@ function create_drawer_buttons(){
 		btn_temp.innerHTML = 'Aux '.concat(drawer[i]);
 		btn_temp.id = 'A'.concat(drawer_id[i]);
 		btn_temp.className = 'btn_drawer';
-		var div_temp = document.createElement('div');
 		var col = 'navbar_1_'.concat(column_counter[i]);
-		document.getElementById(col).appendChild(div_temp);
-		div_temp.appendChild(btn_temp);
+		document.getElementById(col).appendChild(btn_temp);
 		create_listener_drawer_button(btn_temp);
 	}
 	//Create the buttons for the tower drawers.
@@ -346,10 +344,8 @@ function create_drawer_buttons(){
 		btn_temp.innerHTML = 'Tower '.concat(tower[i]);
 		btn_temp.id = 'T'.concat(tower_id[i]);
 		btn_temp.className = 'btn_drawer';
-		var div_temp = document.createElement('div');
 		var col = 'navbar_2_'.concat(column_counter[i]);
-		document.getElementById(col).appendChild(div_temp);
-		div_temp.appendChild(btn_temp);
+		document.getElementById(col).appendChild(btn_temp);
 		create_listener_drawer_button(btn_temp);
 	}
 	//Create a button for the remote manager.
@@ -357,10 +353,8 @@ function create_drawer_buttons(){
 	btn_temp.innerHTML = 'Remote';
 	btn_temp.id = 'R0';
 	btn_temp.className = 'btn_drawer';
-	var div_temp = document.createElement('div');
 	var col = 'navbar_3_0'
-	document.getElementById(col).appendChild(div_temp);
-	div_temp.appendChild(btn_temp);
+	document.getElementById(col).appendChild(btn_temp);
 	create_listener_drawer_button(btn_temp);
 }
 /*This function creates a listener for each drawer
@@ -411,6 +405,7 @@ function create_listener_drawer_button(btn){
 				drawer_saved = false;
 			}
 		}
+		console.log(localStorage.getItem(unique_index));
 		if(!drawer_saved){
 			//Create div element that will hold drawer configuration.
 			var div_drawer = document.createElement('div');
@@ -465,11 +460,12 @@ function create_listener_drawer_button(btn){
 						cell.className = 'drawer_cell pocket';
 						cell.draggable = true;
 						cell.id = 'pocket_'.concat(pocket_array[i]);
-						if(localStorage.getItem(unique_index.concat(cell.id)) != 'undefined'){
-							cell.innerHTML = pocket_array[i];
+						//Check to see if this drawer has already been configured.
+						if(localStorage.getItem(unique_index)){
+							cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
 						}
 						else{
-							cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
+							cell.innerHTML = pocket_array[i];
 						}
 						//Create a listener to allow dragging.
 						create_listener_drag(cell);
@@ -496,11 +492,12 @@ function create_listener_drawer_button(btn){
 						cell.className = 'two_inch_bin pocket';
 						cell.draggable = true;
 						cell.id = 'pocket_'.concat(pocket_array[i]);
-						if(localStorage.getItem(unique_index.concat(cell.id)) != 'undefined'){
-							cell.innerHTML = pocket_array[i];
+						//Check to see if this drawer has already been configured.
+						if(localStorage.getItem(unique_index)){
+							cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
 						}
 						else{
-							cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
+							cell.innerHTML = pocket_array[i];
 						}
 						//Create a listener to allow dragging.
 						create_listener_drag(cell);
@@ -531,11 +528,12 @@ function create_listener_drawer_button(btn){
 					}
 					var cell = document.createElement('div');
 					cell.id = 'pocket_'.concat(pocket_array[i]);
-					if(localStorage.getItem(unique_index.concat(cell.id)) != 'undefined'){
-							cell.innerHTML = pocket_array[i];
-						}
-					else{
+					//Check to see if this drawer has already been configured.
+					if(localStorage.getItem(unique_index)){
 						cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
+					}
+					else{
+						cell.innerHTML = pocket_array[i];
 					}
 					cell.className = 'four_inch_bin pocket';
 					cell.draggable = true;
@@ -562,11 +560,12 @@ function create_listener_drawer_button(btn){
 					}
 					var cell = document.createElement('div');
 					cell.id = 'pocket_'.concat(pocket_array[i]);
-					if(localStorage.getItem(unique_index.concat(cell.id)) != 'undefined'){
-							cell.innerHTML = pocket_array[i];
-						}
-					else{
+					//Check to see if this drawer has already been configured.
+					if(localStorage.getItem(unique_index)){
 						cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
+					}
+					else{
+						cell.innerHTML = pocket_array[i];
 					}
 					cell.className = 'four_inch_bin pocket';
 					cell.draggable = true;
@@ -606,12 +605,13 @@ function create_listener_drawer_button(btn){
 					}
 					cell.draggable = true;
 					cell.id = 'pocket_'.concat(pocket_array[i]);
-					if(localStorage.getItem(unique_index.concat(cell.id)) != 'undefined'){
-							cell.innerHTML = pocket_array[i];
-						}
-						else{
-							cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
-						}
+					//Check to see if this drawer has already been configured.
+					if(localStorage.getItem(unique_index)){
+						cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
+					}
+					else{
+						cell.innerHTML = pocket_array[i];
+					}
 					//Create a listener to allow dragging.
 					create_listener_drag(cell);
 					//Create a listener to allow table rows to be dropped.
@@ -819,6 +819,8 @@ function save_configuration(){
 	else{
 		saved_configurations.push(temp_obj);
 	}
+	//Disable local storage.
+	localStorage.setItem(unique_index, false);
 	body.removeChild(document.getElementById('div_drawer'));
 }
 function save_all(){
