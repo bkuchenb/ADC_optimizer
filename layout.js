@@ -34,6 +34,8 @@ var current_drawer_index = '';
 var saved_configurations = [];
 //"_" + current_station + "_" + current_drawer + "_"
 var unique_index = '';
+//Used until server database is in place.
+var storage = {};
 //Variabls to separate station buttons.
 var floor = '';
 var station_column = '';
@@ -405,7 +407,6 @@ function create_listener_drawer_button(btn){
 				drawer_saved = false;
 			}
 		}
-		console.log(localStorage.getItem(unique_index));
 		if(!drawer_saved){
 			//Create div element that will hold drawer configuration.
 			var div_drawer = document.createElement('div');
@@ -428,13 +429,7 @@ function create_listener_drawer_button(btn){
 					cell.className = 'drawer_cell pocket';
 					cell.draggable = true;
 					cell.id = 'pocket_'.concat(pocket_array[i]);
-					//Check to see if this drawer has already been configured.
-					if(localStorage.getItem(unique_index)){
-						cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
-					}
-					else{
-						cell.innerHTML = pocket_array[i];
-					}
+					cell.innerHTML = pocket_array[i];
 					//Create a listener to allow dragging.
 					create_listener_drag(cell);
 					//Create a listener to allow table rows to be dropped.
@@ -460,13 +455,7 @@ function create_listener_drawer_button(btn){
 						cell.className = 'drawer_cell pocket';
 						cell.draggable = true;
 						cell.id = 'pocket_'.concat(pocket_array[i]);
-						//Check to see if this drawer has already been configured.
-						if(localStorage.getItem(unique_index)){
-							cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
-						}
-						else{
-							cell.innerHTML = pocket_array[i];
-						}
+						cell.innerHTML = pocket_array[i];
 						//Create a listener to allow dragging.
 						create_listener_drag(cell);
 						//Create a listener to allow table rows to be dropped.
@@ -492,13 +481,7 @@ function create_listener_drawer_button(btn){
 						cell.className = 'two_inch_bin pocket';
 						cell.draggable = true;
 						cell.id = 'pocket_'.concat(pocket_array[i]);
-						//Check to see if this drawer has already been configured.
-						if(localStorage.getItem(unique_index)){
-							cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
-						}
-						else{
-							cell.innerHTML = pocket_array[i];
-						}
+						cell.innerHTML = pocket_array[i];
 						//Create a listener to allow dragging.
 						create_listener_drag(cell);
 						//Create a listener to allow table rows to be dropped.
@@ -528,13 +511,7 @@ function create_listener_drawer_button(btn){
 					}
 					var cell = document.createElement('div');
 					cell.id = 'pocket_'.concat(pocket_array[i]);
-					//Check to see if this drawer has already been configured.
-					if(localStorage.getItem(unique_index)){
-						cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
-					}
-					else{
-						cell.innerHTML = pocket_array[i];
-					}
+					cell.innerHTML = pocket_array[i];
 					cell.className = 'four_inch_bin pocket';
 					cell.draggable = true;
 					if(pocket_array[i] == 27 || pocket_array[i] == 28){
@@ -560,13 +537,7 @@ function create_listener_drawer_button(btn){
 					}
 					var cell = document.createElement('div');
 					cell.id = 'pocket_'.concat(pocket_array[i]);
-					//Check to see if this drawer has already been configured.
-					if(localStorage.getItem(unique_index)){
-						cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
-					}
-					else{
-						cell.innerHTML = pocket_array[i];
-					}
+					cell.innerHTML = pocket_array[i];
 					cell.className = 'four_inch_bin pocket';
 					cell.draggable = true;
 					if(pocket_array[i] == 47 || pocket_array[i] == 48){
@@ -605,13 +576,7 @@ function create_listener_drawer_button(btn){
 					}
 					cell.draggable = true;
 					cell.id = 'pocket_'.concat(pocket_array[i]);
-					//Check to see if this drawer has already been configured.
-					if(localStorage.getItem(unique_index)){
-						cell.innerHTML = localStorage.getItem(unique_index.concat(cell.id));
-					}
-					else{
-						cell.innerHTML = pocket_array[i];
-					}
+					cell.innerHTML = pocket_array[i];
 					//Create a listener to allow dragging.
 					create_listener_drag(cell);
 					//Create a listener to allow table rows to be dropped.
@@ -817,19 +782,23 @@ function save_configuration(){
 	}
 	//If this is a new save, add to the end of the array.
 	else{
+		storage[unique_index] = true;
 		saved_configurations.push(temp_obj);
 	}
-	//Disable local storage.
-	localStorage.setItem(unique_index, false);
+	var pockets = document.getElementsByClassName('pocket');
+	//Get the pocket data and save it to local storage.
+	for(var i = 0; i < pockets.length; i++){
+		storage[unique_index.concat(pockets[i].id)] = pockets[i].innerHTML;
+	}
 	body.removeChild(document.getElementById('div_drawer'));
 }
 function save_all(){
+	storage[unique_index] = true;
 	//Get all the pockets.
 	var pockets = document.getElementsByClassName('pocket');
 	//Get the pocket data and save it to local storage.
 	for(var i = 0; i < pockets.length; i++){
-		//localStorage.setItem(unique_index, true);
-		//localStorage.setItem(unique_index.concat(pockets[i].id), pockets[i].innerHTML);
+		storage[unique_index.concat(pockets[i].id)] = pockets[i].innerHTML;
 	}
 }
 /*This function is used to print a drawer configuration.
