@@ -2,6 +2,7 @@
 //Variables to store the inventory.
 var input = [];
 var station_data = [];
+var order = 'descending';
 
 //Variables to zebra stripe table rows.
 var counter = 0;
@@ -187,30 +188,35 @@ function create_listener_station_button(btn_temp){
 		table_header.appendChild(header_row);
 		//Create the cells and add them to the row.
 		var cell_header_0 = document.createElement('th');
+		cell_header_0.style.cursor = 'pointer';
 		cell_header_0.innerHTML = 'MedId';
+		//Create a listener to sort the table by column.
+		create_listener_header(cell_header_0);
 		header_row.appendChild(cell_header_0);
 		var cell_header_1 = document.createElement('th');
+		cell_header_1.style.cursor = 'pointer';
 		cell_header_1.innerHTML = 'MedDescription';
+		//Create a listener to sort the table by column.
+		create_listener_header(cell_header_1);
 		header_row.appendChild(cell_header_1);
-		var cell_header_2 = document.createElement('th')
+		var cell_header_2 = document.createElement('th');
+		cell_header_2.style.cursor = 'pointer';
 		cell_header_2.innerHTML = 'Location';
+		//Create a listener to sort the table by column.
+		create_listener_header(cell_header_2);
 		header_row.appendChild(cell_header_2);
-		var cell_header_3 = document.createElement('th')
+		var cell_header_3 = document.createElement('th');
+		cell_header_3.style.cursor = 'pointer';
 		cell_header_3.innerHTML = 'Vends';
+		//Create a listener to sort the table by column.
+		create_listener_header(cell_header_3);
 		header_row.appendChild(cell_header_3);
 		//Create and add a table body element to the table.
 		var tbody = document.createElement('tbody');
 		tbody.id = 'table_body';
 		table.appendChild(tbody);
-		//Sort the station_data array by Vends.
-		station_data = station_data.sort(sort_obj_array);
-		function sort_obj_array(a,b){
-			if(parseInt(a.Vends) > parseInt(b.Vends))
-				return -1;
-			if(parseInt(a.Vends) < parseInt(b.Vends))
-				return 1;
-			return 0;
-		}
+		//Sort the station_data array by Vends in descending order.
+		sort_station_data('Vends');
 		//Create rows in the table that contain the station data.
 		for(y = 0; y < station_data.length; y++){
 			create_row(station_data[y]);
@@ -830,4 +836,53 @@ function print_drawer(){
 	window.print();
 	container_4.removeChild(table_2);
 	container_4.style.visibility = 'hidden';
+}
+/*This function is used to sort the station data
+  by the parameter passed when calling the function.
+*/
+function sort_station_data(index){
+	station_data = station_data.sort(function (a,b){
+		var temp_a = a[index];
+		var temp_b = b[index];
+		if(index == 'Vends' || index == 'MedId'){
+			temp_a = parseInt(a[index]);
+			temp_b = parseInt(b[index]);
+		}
+		if(temp_a > temp_b){
+			if(order == 'descending'){return -1;}
+			if(order == 'ascending'){return 1;}
+		}
+		if(temp_a < temp_b){
+			if(order == 'descending'){return 1;}
+			if(order == 'ascending'){return -1;}
+		}
+		return 0;
+	});
+	if(order == 'descending'){
+		order = 'ascending';
+	}
+	else{
+		order = 'descending';
+	}
+}
+/*This function creates a listener for the column headings in
+  the table. When the button is clicked, it sorts the data
+  either ascending or descending.
+*/
+function create_listener_header(column){
+	//When clicked, sort the table by the column that column.
+	column.addEventListener('click', function(event){
+		//event.preventDefault();
+		//Clear the table body.
+		var body = document.getElementById('table_body');
+		while(body.firstChild){
+			body.removeChild(body.firstChild);
+		}
+		//Sort the station_data array by the desired column.
+		sort_station_data(column.innerHTML);
+		//Create rows in the table that contain the station data.
+		for(y = 0; y < station_data.length; y++){
+			create_row(station_data[y]);
+		}
+	}, false);
 }
