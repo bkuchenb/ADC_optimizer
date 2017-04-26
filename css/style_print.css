@@ -1,3 +1,20 @@
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+@page{
+  size: letter;
+}
+@media print{
+	#container_04{
+		-ms-transform: rotate(90deg);
+        /* IE 9 */
+        -webkit-transform: rotate(90deg);
+        /* Chrome, Safari, Opera */
+		height: 11in;
+		width: 8.5in;
+	}
+}
 #container_01, #container_02, #container_03, button{
 	display: none;
 }
@@ -7,4 +24,63 @@ body{
 table, td{
 	border: 1px solid black;
 	vertical-align: top;/*Keep all elements flush with the top*/
+}
+table{
+     table-layout: fixed;
+}
+.drawer_cell{
+	height: 19%;
+	margin: 5px;
+	padding: 5px;
+	text-align: left;
+	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 23%;
+}
+.single_cubie{
+	height: 19%;
+	margin: 5px;
+	padding: 5px;
+	text-align: left;
+	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 15%;
+}
+.double_cubie{
+	height: 19%;
+	margin: 5px;
+	padding: 5px;
+	text-align: left;
+	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 30.8%;
+}
+.triple_cubie{
+	height: 19%;
+	margin: 5px;
+	padding: 5px;
+	text-align: left;
+	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 46.7%;
+}
+.two_inch_bin{
+	height: 175px;
+	margin: 5px;
+	padding: 5px;
+	text-align: left;
+	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 11%;
+}
+.four_inch_bin{
+	height: 50%;
+	margin: 5px;
+	padding: 5px;
+	text-align: left;
+	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 21%;
+}
+.six_inch_bin{
+	height: 50%;
+	margin: 5px;
+	padding: 5px;
+	text-align: left;
+	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 30%;
 }

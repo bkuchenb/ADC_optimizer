@@ -828,6 +828,7 @@ function print_drawer(){
 			//Create cells and add them to the row.
 			var cell = document.createElement('td');
 			cell.innerHTML = cell_data[j].innerHTML;
+			cell.className = cell_data[j].className;
 			row.appendChild(cell);
 		}
 		table_2.appendChild(row);	
@@ -841,29 +842,25 @@ function print_drawer(){
   by the parameter passed when calling the function.
 */
 function sort_station_data(index){
-	station_data = station_data.sort(function (a,b){
-		var temp_a = a[index];
-		var temp_b = b[index];
-		if(index == 'Vends' || index == 'MedId'){
-			temp_a = parseInt(a[index]);
-			temp_b = parseInt(b[index]);
+	station_data = station_data.sort(function compare(a,b){
+		if(order == 'descending'){
+			var temp = a[index].localeCompare(b[index], undefined,
+				{numeric: true, sensitivity: 'base'});
+			if(temp == 1){return -1;}
+			else if(temp == -1){return 1;}
+			else{return 0;}
 		}
-		if(temp_a > temp_b){
-			if(order == 'descending'){return -1;}
-			if(order == 'ascending'){return 1;}
+		else{
+			return(a[index].localeCompare(b[index], undefined,
+				{numeric: true, sensitivity: 'base'}));
 		}
-		if(temp_a < temp_b){
-			if(order == 'descending'){return 1;}
-			if(order == 'ascending'){return -1;}
-		}
-		return 0;
 	});
 	if(order == 'descending'){
 		order = 'ascending';
 	}
 	else{
 		order = 'descending';
-	}
+	}	
 }
 /*This function creates a listener for the column headings in
   the table. When the button is clicked, it sorts the data
