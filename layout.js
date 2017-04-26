@@ -810,33 +810,7 @@ function save_all(){
 /*This function is used to print a drawer configuration.
 */
 function print_drawer(){
-	//Get the elements that need to be printed.
-	var table_data = document.getElementById('div_drawer');
-	var row_data = table_data.childNodes;
-	//Create a new div.
-	var container_4 = document.getElementById('container_04');
-	container_4.style.visibility = 'visible';
-	//Create a table.
-	var table_2 = document.createElement('table');
-	table_2.id = 'table_2';
-	for(var i = 0; i < row_data.length; i++){
-		//Get the cells in the row
-		var cell_data = row_data[i].childNodes;
-		//Create a row and add it to the table.
-		var row = document.createElement('tr');
-		for(var j = 0; j < cell_data.length; j++){
-			//Create cells and add them to the row.
-			var cell = document.createElement('td');
-			cell.innerHTML = cell_data[j].innerHTML;
-			cell.className = cell_data[j].className;
-			row.appendChild(cell);
-		}
-		table_2.appendChild(row);	
-	}
-	container_4.appendChild(table_2);
 	window.print();
-	container_4.removeChild(table_2);
-	container_4.style.visibility = 'hidden';
 }
 /*This function is used to sort the station data
   by the parameter passed when calling the function.

@@ -3,33 +3,40 @@
     -moz-box-sizing: border-box;
 }
 @page{
-  size: letter;
+  margin: .25in;
 }
-@media print{
-	#container_04{
-		-ms-transform: rotate(90deg);
-        /* IE 9 */
-        -webkit-transform: rotate(90deg);
-        /* Chrome, Safari, Opera */
-		height: 11in;
-		width: 8.5in;
-	}
-}
-#container_01, #container_02, #container_03, button{
+#container_01, #container_02, #div_table, button{
 	display: none;
 }
 body{
 	background: white;
+	font: 8pt Georgia;
 }
-table, td{
-	border: 1px solid black;
+input{
+	font: 8pt Georgia;
+	width: .5in
+}
+#container_03{
+	position: relative;/*Stack on top of each other for smaller screens.*/
+    text-align: center;/*Center all divs placed inside this container.*/
+    width: 100%;/*Fill the entire width of the screen.*/
+}
+#div_drawer{
+	display: inline-block;
+	height: 100%;
 	vertical-align: top;/*Keep all elements flush with the top*/
+	width: 100%;
 }
-table{
-     table-layout: fixed;
+.drawer_row{
+	text-align: center;/*Center all elements placed inside this div.*/
+	width: 100%;
 }
 .drawer_cell{
-	height: 19%;
+	background-color: white;
+	border: 1px solid black;
+	cursor: move;
+	display: inline-block;
+	height: 125px;
 	margin: 5px;
 	padding: 5px;
 	text-align: left;
@@ -37,7 +44,11 @@ table{
 	width: 23%;
 }
 .single_cubie{
-	height: 19%;
+	background-color: white;
+	border: 1px solid black;
+	cursor: move;
+	display: inline-block;
+	height: 125px;
 	margin: 5px;
 	padding: 5px;
 	text-align: left;
@@ -45,7 +56,11 @@ table{
 	width: 15%;
 }
 .double_cubie{
-	height: 19%;
+	background-color: white;
+	border: 1px solid black;
+	cursor: move;
+	display: inline-block;
+	height: 125px;
 	margin: 5px;
 	padding: 5px;
 	text-align: left;
@@ -53,7 +68,11 @@ table{
 	width: 30.8%;
 }
 .triple_cubie{
-	height: 19%;
+	background-color: white;
+	border: 1px solid black;
+	cursor: move;
+	display: inline-block;
+	height: 125px;
 	margin: 5px;
 	padding: 5px;
 	text-align: left;
@@ -61,6 +80,11 @@ table{
 	width: 46.7%;
 }
 .two_inch_bin{
+	background-color: white;
+	border: 1px solid black;
+	cursor: move;
+	display: inline-block;
+	font-size: 14px;
 	height: 175px;
 	margin: 5px;
 	padding: 5px;
@@ -69,7 +93,11 @@ table{
 	width: 11%;
 }
 .four_inch_bin{
-	height: 50%;
+	background-color: white;
+	border: 1px solid black;
+	cursor: move;
+	display: inline-block;
+	height: 325px;
 	margin: 5px;
 	padding: 5px;
 	text-align: left;
@@ -77,7 +105,11 @@ table{
 	width: 21%;
 }
 .six_inch_bin{
-	height: 50%;
+	background-color: white;
+	border: 1px solid black;
+	cursor: move;
+	display: inline-block;
+	height: 325px;
 	margin: 5px;
 	padding: 5px;
 	text-align: left;
