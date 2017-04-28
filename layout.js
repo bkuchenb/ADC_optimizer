@@ -23,6 +23,7 @@ create_listener_drag(document.getElementById('temp4'));
 create_listener_drop(document.getElementById('temp4'));
 
 /*     Global variables     */
+var page_title = document.getElementById('print_header');
 var body = document.getElementById('body');
 var navbar = document.getElementById('navbar');
 var admin = document.getElementById('admin');
@@ -40,7 +41,7 @@ var storage = {};
 //Variabls to separate station buttons.
 var floor = '';
 var station_column = '';
-
+var print_header = '';
 /*This function is called when a file is choosen.
   It saves the csv data in and array named input.
 */
@@ -158,7 +159,12 @@ function create_station_buttons(station){
 function create_listener_station_button(btn_temp){
 	btn_temp.addEventListener('click', function(event){
 		event.preventDefault();
+		//Get the name of the button clicked.
 		current_station = btn_temp.innerHTML;
+		//Display the station name in place of the logo/title.
+		document.getElementById('title').innerHTML = current_station;
+		print_header = print_header.concat(current_station);
+		page_title.innerHTML = print_header;
 		//Create buttons for admin.
 		create_admin_buttons();
 		//Change the width of the body element.
@@ -376,6 +382,9 @@ function create_listener_drawer_button(btn){
 	//When clicked, create a grid.
 	btn.addEventListener('click', function(event){
 		event.preventDefault();
+		//Add the drawer to the print_header.
+		print_header = current_station.concat(', ').concat(btn.innerHTML);
+		page_title.innerHTML = print_header;
 		//Generate a unique index for this drawer.
 		unique_index = '_'.concat(current_station);
 		unique_index = unique_index.concat('_');
@@ -770,10 +779,14 @@ function reset_display(){
 	//Reset global variables.
 	drawer_selected = false;
 	drawer_saved = false;
+	order = 'descending';
 	saved_configurations = [];
 	station_data = [];
 	//Display the station buttons.
 	get_stations();
+	//Reset the logo/title.
+	document.getElementById('title').innerHTML = 'ADC Optimizer';
+	document.getElementById('print_header').innerHTML = 'ADC Optimizer';
 }
 /*This function is used to save a drawer configuration.
 */
@@ -841,18 +854,33 @@ function sort_station_data(index){
   either ascending or descending.
 */
 function create_listener_header(column){
-	//When clicked, sort the table by the column that column.
+	//When clicked, sort the table by that column.
 	column.addEventListener('click', function(event){
-		//event.preventDefault();
+		//Reset the counter.
+		counter = 0;
+		//Variable to store the remaining items in the table.
+		var temp_array = [];
+		//Get the table body.
+		var table_body = document.getElementById('table_body');
+		//Get the remaining table rows.
+		var table_rows = document.getElementsByClassName('table_row');
+		for(var i = 0; i < station_data.length; i++){
+			for(var j = 0; j < table_rows.length; j++){
+				if(station_data[i].Location == table_rows[j].childNodes[2].innerHTML){
+					temp_array.push(station_data[i]);
+				}
+			}
+		}
+		//Reset the station_data array.
+		station_data = temp_array;
 		//Clear the table body.
-		var body = document.getElementById('table_body');
-		while(body.firstChild){
-			body.removeChild(body.firstChild);
+		while(table_body.firstChild){
+			table_body.removeChild(table_body.firstChild);
 		}
 		//Sort the station_data array by the desired column.
 		sort_station_data(column.innerHTML);
 		//Create rows in the table that contain the station data.
-		for(y = 0; y < station_data.length; y++){
+		for(var y = 0; y < station_data.length; y++){
 			create_row(station_data[y]);
 		}
 	}, false);

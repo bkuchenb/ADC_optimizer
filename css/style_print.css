@@ -3,7 +3,10 @@
     -moz-box-sizing: border-box;
 }
 @page{
-  margin: .25in;
+	margin-bottom: .5in;
+	margin-left: .25in;
+	margin-right: .25in;
+	margin-top: .5in;
 }
 #container_01, #container_02, #div_table, button{
 	display: none;
@@ -36,7 +39,7 @@ input{
 	border: 1px solid black;
 	cursor: move;
 	display: inline-block;
-	height: 125px;
+	height: 1.25in;
 	margin: 5px;
 	padding: 5px;
 	text-align: left;
@@ -48,7 +51,7 @@ input{
 	border: 1px solid black;
 	cursor: move;
 	display: inline-block;
-	height: 125px;
+	height: 1.25in;
 	margin: 5px;
 	padding: 5px;
 	text-align: left;
@@ -60,7 +63,7 @@ input{
 	border: 1px solid black;
 	cursor: move;
 	display: inline-block;
-	height: 125px;
+	height: 1.25in;
 	margin: 5px;
 	padding: 5px;
 	text-align: left;
@@ -72,7 +75,7 @@ input{
 	border: 1px solid black;
 	cursor: move;
 	display: inline-block;
-	height: 125px;
+	height: 1.25in;
 	margin: 5px;
 	padding: 5px;
 	text-align: left;
@@ -84,9 +87,9 @@ input{
 	border: 1px solid black;
 	cursor: move;
 	display: inline-block;
-	font-size: 14px;
-	height: 175px;
+	height: 1.75in;
 	margin: 5px;
+	overflow: hidden;
 	padding: 5px;
 	text-align: left;
 	vertical-align: top;/*Keep all elements flush with the top*/
@@ -97,7 +100,7 @@ input{
 	border: 1px solid black;
 	cursor: move;
 	display: inline-block;
-	height: 325px;
+	height: 3.25in;
 	margin: 5px;
 	padding: 5px;
 	text-align: left;
@@ -109,7 +112,7 @@ input{
 	border: 1px solid black;
 	cursor: move;
 	display: inline-block;
-	height: 325px;
+	height: 3.25in;
 	margin: 5px;
 	padding: 5px;
 	text-align: left;
