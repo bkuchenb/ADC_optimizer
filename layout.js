@@ -34,6 +34,7 @@ var current_station = '';
 var current_drawer = '';
 var current_drawer_index = '';
 var saved_configurations = [];
+var set_pars = true;
 //"_" + current_station + "_" + current_drawer + "_"
 var unique_index = '';
 //Used until server database is in place.
@@ -251,6 +252,11 @@ function create_admin_buttons(){
 	btn_save.innerHTML = 'Save';
 	btn_save.addEventListener('click', save_all, false);
 	admin.appendChild(btn_save);
+	var btn_settings = document.createElement('button');
+	btn_settings.id = 'btn_settings';
+	btn_settings.innerHTML = 'Settings';
+	btn_settings.addEventListener('click', settings, false);
+	admin.appendChild(btn_settings);
 	//Reduce the fontSize of the title.
 	document.getElementById('title').style.fontSize = '30px';
 }
@@ -324,9 +330,9 @@ function create_drawer_buttons(){
 		navbar.appendChild(navbar_section);
 	}
 	var drawer = ['1.1', '1.2', '2.1', '2.2', '3.1',
-			      '3.2', '4.1', '4.2', '5'];
+			      '3.2', '4.1', '4.2', '5', '6'];
 	var drawer_id = ['1_1', '1_2', '2_1', '2_2', '3_1',
-				     '3_2', '4_1', '4_2', '5'];
+				     '3_2', '4_1', '4_2', '5', '6'];
 	var tower = ['1.1', '1.2', '2.1', '2.2', '3.1',
 			      '3.2', '4.1', '4.2'];
 	var tower_id = ['1_1', '1_2', '2_1', '2_2', '3_1',
@@ -390,18 +396,17 @@ function create_listener_drawer_button(btn){
 		unique_index = unique_index.concat('_');
 		unique_index = unique_index.concat(current_drawer);
 		unique_index = unique_index.concat('_');
+		//Highlight the button clicked.
+		btn.style.backgroundColor = '#e6eeff';
+		btn.style.border = '3px solid pink';
 		//Save the last drawer configuration.
 		if(drawer_selected){
 			save_configuration();
-			btn.style.backgroundColor = '#e6eeff';
-			btn.style.border = '3px solid pink';
 			//Reset the last button clicked.
 			last_button_clicked.style.backgroundColor = '#F0F0F0';
 			last_button_clicked.style.border = '1px solid black';
 		}
 		else{
-			btn.style.backgroundColor = '#e6eeff';
-			btn.style.border = '3px solid pink';
 			drawer_selected = true;
 		}
 		//Set the current drawer.
@@ -569,38 +574,72 @@ function create_listener_drawer_button(btn){
 				}
 			}
 			else if(btn.id.substring(0, 1) == 'M' || btn.id.substring(0, 1) == 'A'){
-				pocket_array = ['E1', 'E4',
+				if(btn.id.length == 2){
+					pocket_array = ['E1', 'E3',
+								'D1', 'D3',
+								'C1', 'C3',
+								'B1', 'B3',
+								'A1', 'A3'];
+					for(var i = 0; i < 10; i++){
+						if(i == 0 || i == 2 || i == 4 || i == 6 || i == 8){
+							var row = document.createElement('div');
+							row.className = 'drawer_row';
+						}
+						var cell = document.createElement('div');
+						if(pocket_array[i].substring(1,2) == '1'){
+							cell.className = 'double_deep pocket';
+						}
+						else{
+							cell.className = 'triple_deep pocket';
+						}
+						cell.draggable = true;
+						cell.id = 'pocket_'.concat(pocket_array[i]);
+						cell.innerHTML = pocket_array[i];
+						//Create a listener to allow dragging.
+						create_listener_drag(cell);
+						//Create a listener to allow table rows to be dropped.
+						create_listener_drop(cell);
+						row.appendChild(cell);
+						if(i == 1 || i == 3 || i == 5 || i == 7 || i == 9){
+							div_drawer.appendChild(row);
+						}
+					}
+				}
+				else{
+					pocket_array = ['E1', 'E4',
 								'D1', 'D3', 'D5',
 								'C1', 'C2', 'C3', 'C4', 'C5', 'C6',
 								'B1', 'B2', 'B3', 'B4', 'B5', 'B6',
 								'A1', 'A2', 'A3', 'A4', 'A5', 'A6'];
-				for(var i = 0; i < 23; i++){
-					if(i == 0 || i == 2 || i == 5 || i == 11 || i == 17){
-						var row = document.createElement('div');
-						row.className = 'drawer_row';
-					}
-					var cell = document.createElement('div');
-					if(pocket_array[i].substring(0,1) == 'D'){
-						cell.className = 'double_cubie pocket';
-					}
-					else if(pocket_array[i].substring(0,1) == 'E'){
-						cell.className = 'triple_cubie pocket';
-					}
-					else{
-						cell.className = 'single_cubie pocket';
-					}
-					cell.draggable = true;
-					cell.id = 'pocket_'.concat(pocket_array[i]);
-					cell.innerHTML = pocket_array[i];
-					//Create a listener to allow dragging.
-					create_listener_drag(cell);
-					//Create a listener to allow table rows to be dropped.
-					create_listener_drop(cell);
-					row.appendChild(cell);
-					if(i == 1 || i == 4 || i == 10 || i == 16 || i == 22){
-						div_drawer.appendChild(row);
+					for(var i = 0; i < 23; i++){
+						if(i == 0 || i == 2 || i == 5 || i == 11 || i == 17){
+							var row = document.createElement('div');
+							row.className = 'drawer_row';
+						}
+						var cell = document.createElement('div');
+						if(pocket_array[i].substring(0,1) == 'D'){
+							cell.className = 'double_cubie pocket';
+						}
+						else if(pocket_array[i].substring(0,1) == 'E'){
+							cell.className = 'triple_cubie pocket';
+						}
+						else{
+							cell.className = 'single_cubie pocket';
+						}
+						cell.draggable = true;
+						cell.id = 'pocket_'.concat(pocket_array[i]);
+						cell.innerHTML = pocket_array[i];
+						//Create a listener to allow dragging.
+						create_listener_drag(cell);
+						//Create a listener to allow table rows to be dropped.
+						create_listener_drop(cell);
+						row.appendChild(cell);
+						if(i == 1 || i == 4 || i == 10 || i == 16 || i == 22){
+							div_drawer.appendChild(row);
+						}
 					}
 				}
+				
 			}
 			else{
 				var drawer = document.createElement('div');
@@ -627,6 +666,14 @@ function create_listener_drag(drag_element){
 	drag_element.addEventListener('dragstart', function(event){
 		event.dataTransfer.setData('text', drag_element.id);
 	}, false);
+	function dragStartCallback(event){
+		if(document.activeElement.tagName == 'INPUT'){
+			//Block dragging
+			console.log('Blocking drag start');
+			return false;
+		}
+		event.dataTransfer.setData('text', 'Dropped');
+	}
 }
 /*This function creates a drop listener for each cell in
   the drawer grid and each holding area. If a table row is dropped into a cell,
@@ -636,6 +683,7 @@ function create_listener_drag(drag_element){
 */
 function create_listener_drop(drop_element){
 	drop_element.addEventListener('dragover', function(event){
+		//Needed to allow drop into the cell.
 		event.preventDefault();
 	}, false);
 	drop_element.addEventListener('drop', function(event){
@@ -726,30 +774,43 @@ function create_listener_drop(drop_element){
 			var avg = parseFloat(temp[0].Avg_Wk);
 			//Create variable to hold the Max/Min numbers.
 			var txt_str = '';
-			//Calculate the max and min based on average weekly use.
-			if(avg <= 3){
-				txt_str = '4/1';
+			if(set_pars){
+				//Calculate the max and min based on average weekly use.
+				if(avg <= 3){
+					txt_str = '4/1';
+				}
+				else if(avg > 3 && avg <= 4){
+					txt_str = '6/2';
+				}
+				else if(avg > 4 && avg <= 9){
+					txt_str = '12/3';
+				}
+				else if(avg > 9 && avg <= 15){
+					txt_str = '20/5';
+				}
+				else if(avg > 15 && avg <= 30){
+					txt_str = '40/10';
+				}
+				else if(avg > 30 && avg <= 40){
+					txt_str = '60/20';
+				}
+				else if(avg > 40 && avg <= 60){
+					txt_str = '80/20';
+				}
+				else if(avg > 60){
+					txt_str = '100/25';
+				}
 			}
-			else if(avg > 3 && avg <= 4){
-				txt_str = '6/2';
-			}
-			else if(avg > 4 && avg <= 9){
-				txt_str = '12/3';
-			}
-			else if(avg > 9 && avg <= 15){
-				txt_str = '20/5';
-			}
-			else if(avg > 15 && avg <= 30){
-				txt_str = '40/10';
-			}
-			else if(avg > 30){
-				txt_str = '60/20';
+			else{
+				txt_str = temp[0].Max;
+				txt_str = txt_str.concat('/');
+				txt_str = txt_str.concat(temp[0].Min);
 			}
 			//Create a text box to store the Max/Min settings.
 			var par_input = document.createElement('input');
 			par_input.style.border = 'none';
 			par_input.type = 'text';
-			par_input.defaultValue = txt_str;
+			par_input.value = txt_str;
 			//Add the text to the cell.
 			event.target.innerHTML = event.target.innerHTML.concat(str);
 			event.target.appendChild(par_input);
@@ -819,6 +880,20 @@ function save_all(){
 	for(var i = 0; i < pockets.length; i++){
 		storage[unique_index.concat(pockets[i].id)] = pockets[i].innerHTML;
 	}
+}
+/*This function is used to display extra settings
+  that the user may select.
+*/
+function settings(){
+	btn_temp = document.getElementById('btn_settings');
+	if(set_pars){
+		set_pars = false;
+		btn_temp.style.border = '3px solid red';
+	}
+	else{
+		set_pars = true;
+		btn_temp.style.border = '3px solid green';
+	}	
 }
 /*This function is used to print a drawer configuration.
 */
